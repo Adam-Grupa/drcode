@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>ICD Code Search</title>
+<!-- CSS styles for standard search box -->
+<style type="text/css">
+/*--------------------------------------------------------------
+1.0 - BASE SITE STYLES
+--------------------------------------------------------------*/
+
+h1 {
+	text-align: center;
+    font-family: Helvetica, Arial, sans-serif;
+    font-weight: bold;
+    font-size: 4em;
+    line-height: 1em;
+	position: relative;
+	top: 30%;
+
+}
+.inset-text {
+    /* Shadows are visible under slightly transparent text color */
+    color: rgba(10,60,150, 0.8);
+    text-shadow: 1px 4px 6px #def, 0 0 0 #000, 1px 4px 6px #def;
+}
+/* Don't show shadows when selecting text */
+::-moz-selection { background: #5af; color: #fff; text-shadow: none; }
+::selection { background: #5af; color: #fff; text-shadow: none; }
+
+
+*,*:after,*:before {
+  box-sizing:border-box;
+  -moz-box-sizing:border-box;
+  -webkit-box-sizing:border-box;
+}
+
+.cf:before,
+.cf:after {
+    content:"";
+    display:table;
+}
+.cf:after {
+    clear:both;
+}
+
+body {
+  background-image: url("bg.jpg");
+  background-size: cover;
+  background
+}
+a,a:visited {
+  color:#fff
+}
+/*--------------------------------------------------------------
+2.0 - SEARCH FORM
+--------------------------------------------------------------*/
+.searchform {
+  background:#f4f4f4;
+  background:rgba(244,244,244,.79);
+  border: 1px solid #d3d3d3;
+	left: 50%;
+  padding: 2px 5px;
+  position: absolute;
+	margin: -22px 0 0 -170px;
+	top: 70%;
+  width:339px;
+  box-shadow:0 4px 9px rgba(0,0,0,.37);
+  -moz-box-shadow:0 4px 9px rgba(0,0,0,.37);
+  -webkit-box-shadow:0 4px 9px rgba(0,0,0,.37);
+  border-radius: 10px;
+  -moz-border-radius: 10px;
+  -webkit-border-radius: 10px
+}
+
+.searchform input, .searchform button {
+	float: left
+}
+.searchform input {
+	background:#fefefe;
+	border: none;
+	font:12px/12px 'HelveticaNeue', Helvetica, Arial, sans-serif;
+	margin-right: 5px;
+	padding: 10px;
+	width: 216px;
+	box-shadow: 0 0 4px rgba(0,0,0,.4) inset, 1px 1px 1px rgba(255,255,255,.75);
+	-moz-box-shadow: 0 0 4px rgba(0,0,0,.4) inset, 1px 1px 1px rgba(255,255,255,.75);
+	-webkit-box-shadow: 0 0 4px rgba(0,0,0,.4) inset, 1px 1px 1px rgba(255,255,255,.75);
+  border-radius: 9px;
+  -moz-border-radius: 9px;
+  -webkit-border-radius: 9px
+}
+	.searchform input:focus {
+		outline: none;
+		box-shadow:0 0 4px #0d76be inset;
+		-moz-box-shadow:0 0 4px #0d76be inset;
+		-webkit-box-shadow:0 0 4px #0d76be inset;
+	}
+	.searchform input::-webkit-input-placeholder {
+  	font-style: italic;
+  	line-height: 15px
+	}
+
+	.searchform input:-moz-placeholder {
+	  font-style: italic;
+  	line-height: 15px
+	}
+
+.searchform button {
+	background: rgb(52,173,236);
+	background: -moz-linear-gradient(top, rgba(52,173,236,1) 0%, rgba(38,145,220,1) 100%);
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(52,173,236,1)), color-stop(100%,rgba(38,145,220,1)));
+	background: -webkit-linear-gradient(top, rgba(52,173,236,1) 0%,rgba(38,145,220,1) 100%);
+	background: -o-linear-gradient(top, rgba(52,173,236,1) 0%,rgba(38,145,220,1) 100%);
+	background: -ms-linear-gradient(top, rgba(52,173,236,1) 0%,rgba(38,145,220,1) 100%);
+	background: linear-gradient(to bottom, rgba(52,173,236,1) 0%,rgba(38,145,220,1) 100%);
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#34adec', endColorstr='#2691dc',GradientType=0 );
+	border: none;
+	color:#fff;
+	cursor: pointer;
+	font: 13px/13px 'HelveticaNeue', Helvetica, Arial, sans-serif;
+	padding: 10px;
+	width:106px;
+	box-shadow: 0 0 2px #2692dd inset;
+	-moz-box-shadow: 0 0 2px #2692dd inset;
+	-webkit-box-shadow: 0 0 2px #2692dd inset;
+  border-radius: 9px;
+  -moz-border-radius: 9px;
+  -webkit-border-radius: 9px;
+}
+	.searchform button:hover {
+		opacity:.9;
+	}
+
+/*--------------------------------------------------------------
+3.0 - SEARCH RESULTS
+--------------------------------------------------------------*/
+
+div.results {
+  width: 600px;
+  margin: auto;
+  display: none;
+}
+
+div.result {
+  background: white;
+  display: inline-block;
+  padding: 10px;
+}
+
+span.result-header {
+  font-weight: bold;
+  font-size: 1.5em;  
+}
+
+span.confidence {
+  float: right;
+  margin-right: 50px;
+}
+
+span.codes {
+  font-weight: bold;
+  font-size: 1em;
+}
+</style>
+
+<script>
+window.onload = function () {
+
+  var button = document.getElementsByTagName("button");
+  button[0].onclick = display;
+
+  function display() {
+    document.getElementsByClassName("searchform")[0].style.display = "none";
+    document.getElementsByClassName("results")[0].style.display = "block";
+  }
+
+}
+</script>
+</head>
+<body>
+
+<h1 class = "inset-text">
+ICD Code Search
+</h1>
+<form class="searchform cf">
+  <input type="text" placeholder="Enter your symptoms: ">
+  <button type="button">Search</button>
+</form>
+
+<div class="results">
+  <div class="result">
+    <span class="result-header">Appendicitis</span> <span class="result-header confidence">0.98</span>
+    <p> 
+      Appendicitis is an inflammation of the appendix, a finger-shaped pouch that projects from your colon on the lower right side of your abdomen. The appendix doesn't seem to have a specific purpose.
+    </p>
+    <span class="codes">Suggested codes: 540.1, 540.0</span>
+  </div>
+    <div class="result">
+    <span class="result-header">Renal Lithiasis (Kidney Stones)</span> <span class="result-header confidence">0.73</span>
+    <p> 
+      Kidney stones (renal lithiasis, nephrolithiasis) are small, hard mineral deposits that form inside your kidneys. The stones are made of mineral and acid salts.
+    </p>
+      <span class="codes">Suggested codes: 592.0</span>
+  </div>
+    <div class="result">
+    <span class="result-header">Pancreatitis</span> <span class="result-header confidence">0.54</span>
+    <p> 
+      Pancreatitis is inflammation in the pancreas. The pancreas is a long, flat gland that sits tucked behind the stomach in the upper abdomen. The pancreas produces enzymes that assist digestion and hormones that help regulate the way your body processes sugar (glucose).
+    </p>
+      <span class="codes">Suggested codes: 577.0, 072.3, 577.1</span>
+  </div>
+</div>
+
+</body>
+</html>
+
+
