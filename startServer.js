@@ -7,8 +7,6 @@ fs.readFile(__dirname + '/index.html', function (err, html) {
         throw err;
     }
 
-    var express = require('express').
-        app = express();
 
     http.createServer(function(request, response) {
         response.writeHeader(200, {"Content-Type": "text/html"});
