@@ -27,11 +27,13 @@ h1 {
 ::-moz-selection { background: #5af; color: #fff; text-shadow: none; }
 ::selection { background: #5af; color: #fff; text-shadow: none; }
 
+
 *,*:after,*:before {
   box-sizing:border-box;
   -moz-box-sizing:border-box;
   -webkit-box-sizing:border-box;
 }
+
 .cf:before,
 .cf:after {
     content:"";
@@ -40,8 +42,6 @@ h1 {
 .cf:after {
     clear:both;
 }
-
-
 
 body {
   background-image: url("bg.jpg");
@@ -131,6 +131,36 @@ a,a:visited {
 		opacity:.9;
 	}
 
+/*--------------------------------------------------------------
+3.0 - SEARCH RESULTS
+--------------------------------------------------------------*/
+
+div.results {
+  width: 600px;
+  margin: auto;
+  display: none;
+}
+
+div.result {
+  background: white;
+  display: inline-block;
+  padding: 10px;
+}
+
+span.result-header {
+  font-weight: bold;
+  font-size: 1.5em;  
+}
+
+span.confidence {
+  float: right;
+  margin-right: 50px;
+}
+
+span.codes {
+  font-weight: bold;
+  font-size: 1em;
+}
 </style>
 
 <script>
@@ -152,12 +182,36 @@ window.onload = function () {
 <h1 class = "inset-text">
 ICD Code Search
 </h1>
-
-<form class="searchform"  action="" method="post">
-  <input type="text" id="symptom" name="symptom" placeholder="Enter your symptoms: ">
-  <button type="submit" >Search</button>
+<form class="searchform cf">
+  <input type="text" placeholder="Enter your symptoms: ">
+  <button type="button">Search</button>
 </form>
 
+<div class="results">
+  <div class="result">
+    <span class="result-header">Appendicitis</span> <span class="result-header confidence">0.98</span>
+    <p> 
+      Appendicitis is an inflammation of the appendix, a finger-shaped pouch that projects from your colon on the lower right side of your abdomen. The appendix doesn't seem to have a specific purpose.
+    </p>
+    <span class="codes">Suggested codes: 540.1, 540.0</span>
+  </div>
+    <div class="result">
+    <span class="result-header">Renal Lithiasis (Kidney Stones)</span> <span class="result-header confidence">0.73</span>
+    <p> 
+      Kidney stones (renal lithiasis, nephrolithiasis) are small, hard mineral deposits that form inside your kidneys. The stones are made of mineral and acid salts.
+    </p>
+      <span class="codes">Suggested codes: 592.0</span>
+  </div>
+    <div class="result">
+    <span class="result-header">Pancreatitis</span> <span class="result-header confidence">0.54</span>
+    <p> 
+      Pancreatitis is inflammation in the pancreas. The pancreas is a long, flat gland that sits tucked behind the stomach in the upper abdomen. The pancreas produces enzymes that assist digestion and hormones that help regulate the way your body processes sugar (glucose).
+    </p>
+      <span class="codes">Suggested codes: 577.0, 072.3, 577.1</span>
+  </div>
+</div>
 
 </body>
 </html>
+
+

@@ -1,7 +1,7 @@
 var method = NLCService.prototype;
 var nlcAccount;
 var primaryClassifierId = '2d7ac0x100-nlc-553'
-global.cList;
+
 function NLCService(){
    login();
 };
@@ -90,9 +90,6 @@ priDelete = function(cList){
           console.log('error:', err);
     });
   }
-
-
-
 }
 
 method.delete = function(id){
@@ -111,14 +108,6 @@ method.ask = function(question)
       console.log(JSON.stringify(response, null, 2));
 });
 }
-
-
-
-
-
-
-
-
 
 
 module.exports = NLCService;

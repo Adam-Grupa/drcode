@@ -1,4 +1,4 @@
-var NLCService = require('./NLC.js')
+var NLCService = require('./NLCService.js')
 
 var nlc = new NLCService();
 
