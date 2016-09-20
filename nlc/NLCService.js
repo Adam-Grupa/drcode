@@ -1,7 +1,7 @@
 var method = NLCService.prototype;
 var nlcAccount;
 var primaryClassifierId = '2d7ac0x100-nlc-553'
-
+global.cList;
 function NLCService(){
    login();
 };
@@ -32,6 +32,7 @@ train = function(fileName, cName){
   return trainSet;
 };
 
+
 getList = function(functionToDo){
    nlcAccount.list({}, function(err, response) {
    if (err){
@@ -39,10 +40,11 @@ getList = function(functionToDo){
     }
     else{
       strJSON = JSON.stringify(response, null, 2);
-      cList = JSON.parse(strJSON).classifiers;
+      global.cList = JSON.parse(strJSON).classifiers;
       functionToDo(cList);
     }
   });
+
 }
 
 method.create = function(fileName, cName){
@@ -96,5 +98,27 @@ priDelete = function(cList){
 method.delete = function(id){
   priDelete(id);
 }
+
+method.ask = function(question)
+{
+  nlcAccount.classify({
+  text: question,
+  classifier_id: primaryClassifierId },
+  function(err, response) {
+    if (err)
+      console.log('error:', err);
+    else
+      console.log(JSON.stringify(response, null, 2));
+});
+}
+
+
+
+
+
+
+
+
+
 
 module.exports = NLCService;
