@@ -1,7 +1,7 @@
 var method = NLCService.prototype;
 var nlcAccount;
-var primaryClassifierId = '2d7ac0x100-nlc-553'
-
+var primaryClassifierId = '2a3456x99-nlc-927';
+var cList;
 function NLCService(){
    login();
 };
@@ -34,13 +34,13 @@ train = function(fileName, cName){
 
 
 getList = function(functionToDo){
-   nlcAccount.list({}, function(err, response) {
+   nclResult =  nlcAccount.list({}, function(err, response) {
    if (err){
       console.log('error while retrieving list of nlc:', err);
     }
     else{
       strJSON = JSON.stringify(response, null, 2);
-      global.cList = JSON.parse(strJSON).classifiers;
+      cList = JSON.parse(strJSON).classifiers;
       functionToDo(cList);
     }
   });
@@ -60,6 +60,7 @@ method.create = function(fileName, cName){
 
 method.showList = function(){
    getList(priPrintList);
+   console.log(cList);
 }
 
 priPrintList = function(cList){

@@ -2,11 +2,11 @@ var NLCService = require('./NLCService.js')
 
 var nlc = new NLCService();
 
-//nlc.create('train.csv','name')
+nlc.create('data.csv','testClassifier')
 //nlc.deleteAll();
-//nlc.showList();
+nlc.showList();
 
 
 
-var question = 'Is this a dog?';
-nlc.ask(question);
+//var question = 'Is this a dog?';
+//nlc.ask(question);

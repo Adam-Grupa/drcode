@@ -12,7 +12,8 @@ method.process = function(question, req, res)
 {
   console.log(question);
   nlc.ask(question);
-  output(question, req, res);
+
+  //output(question, req, res);
 }
 
 output = function(result, req, res)
