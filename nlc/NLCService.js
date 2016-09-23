@@ -1,6 +1,6 @@
 var method = NLCService.prototype;
 var nlcAccount;
-var primaryClassifierId = '2d7aefx102-nlc-2071';
+var primaryClassifierId = '2a3230x98-nlc-1998';
 var cList;
 function NLCService(){
    login();
