@@ -97,19 +97,21 @@ method.delete = function(id){
   priDelete(id);
 }
 
-method.ask = function(question)
+method.ask = function(question,req, res ,output)
 {
   nlcAccount.classify({
   text: question,
   classifier_id: primaryClassifierId },
   function(err, response) {
     if (err)
+    {
       console.log('error:', err);
+    }
     else
-    //pretty print JSON Object
+    {
       console.log(JSON.stringify(response,null,2));
-      
-
+      output(response, req, res);
+    }
 });
 }
 
