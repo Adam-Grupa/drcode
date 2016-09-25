@@ -11,7 +11,7 @@ function Drcode()
 method.process = function(question, req, res)
 {
   console.log(question);
-  nlc.ask(question);
+  nlc.ask(question, req, res);
 
   //output(question, req, res);
 }
