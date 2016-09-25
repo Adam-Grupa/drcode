@@ -29,15 +29,16 @@ server.listen(8000);
 console.log('server running. try localhost:8000')
 
 
+
 function processFormFieldsIndividual(req, res) {
     //Store the data from the fields in your data store.
     //The data store could be a file or database or any other store based
     //on your application.
-    var fields = [];
+    var fields = [];//syptom
     var form = new formidable.IncomingForm();
     form.on('field', function (field, value) {
         //console.log(field);
-        //console.log(value);
+        //console.log(value);value is input syptom
 
         drcode.process(value, req, res);
     });

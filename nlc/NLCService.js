@@ -106,7 +106,10 @@ method.ask = function(question)
     if (err)
       console.log('error:', err);
     else
-      console.log(JSON.stringify(response, null, 2));
+    //pretty print JSON Object
+      console.log(JSON.stringify(response,null,2));
+      
+
 });
 }
 

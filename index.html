@@ -4,10 +4,10 @@
 <title>ICD Code Search</title>
 <!-- CSS styles for standard search box -->
 <style type="text/css">
+<script type="text/javascript" src="/nlc/NLCSevice.js"></script>
 /*--------------------------------------------------------------
 1.0 - BASE SITE STYLES
 --------------------------------------------------------------*/
-
 h1 {
 	text-align: center;
     font-family: Helvetica, Arial, sans-serif;
@@ -16,7 +16,6 @@ h1 {
     line-height: 1em;
 	position: relative;
 	top: 30%;
-
 }
 .inset-text {
     /* Shadows are visible under slightly transparent text color */
@@ -26,7 +25,6 @@ h1 {
 /* Don't show shadows when selecting text */
 ::-moz-selection { background: #5af; color: #fff; text-shadow: none; }
 ::selection { background: #5af; color: #fff; text-shadow: none; }
-
 *,*:after,*:before {
   box-sizing:border-box;
   -moz-box-sizing:border-box;
@@ -40,9 +38,6 @@ h1 {
 .cf:after {
     clear:both;
 }
-
-
-
 body {
   background-image: url("bg.jpg");
   background-size: cover;
@@ -71,7 +66,6 @@ a,a:visited {
   -moz-border-radius: 10px;
   -webkit-border-radius: 10px
 }
-
 .searchform input, .searchform button {
 	float: left
 }
@@ -99,12 +93,10 @@ a,a:visited {
   	font-style: italic;
   	line-height: 15px
 	}
-
 	.searchform input:-moz-placeholder {
 	  font-style: italic;
   	line-height: 15px
 	}
-
 .searchform button {
 	background: rgb(52,173,236);
 	background: -moz-linear-gradient(top, rgba(52,173,236,1) 0%, rgba(38,145,220,1) 100%);
@@ -130,20 +122,16 @@ a,a:visited {
 	.searchform button:hover {
 		opacity:.9;
 	}
-
 </style>
 
 <script>
 window.onload = function () {
-
   var button = document.getElementsByTagName("button");
   button[0].onclick = display;
-
   function display() {
     document.getElementsByClassName("searchform")[0].style.display = "none";
     document.getElementsByClassName("results")[0].style.display = "block";
   }
-
 }
 </script>
 </head>
@@ -158,6 +146,14 @@ ICD Code Search
   <button type="submit" >Search</button>
 </form>
 
+<div class="resluts">
+	<script>
+		var parsed=JSON.parse(response);
+		document.getElementsByClassName("results").innerHTML=parsed.classes[0].class_name +" "+ parsed.classes[0].confidence;
+		document.getElementsByClassName("results").innerHTML=parsed.classes[1].class_name +" "+ parsed.classes[1].confidence;
+		document.getElementsByClassName("results").innerHTML=parsed.classes[2].class_name +" "+ parsed.classes[2].confidence;
+	</script>
 
+</div>
 </body>
 </html>
