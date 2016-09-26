@@ -1,6 +1,6 @@
 var method = NLCService.prototype;
 var nlcAccount;
-var primaryClassifierId = '2a3230x98-nlc-1998';
+var primaryClassifierId = '2d7aefx102-nlc-2991';//'2a3230x98-nlc-1998'
 var cList;
 function NLCService(){
    login();
@@ -99,6 +99,7 @@ method.delete = function(id){
 
 method.ask = function(question,req, res ,output)
 {
+
   nlcAccount.classify({
   text: question,
   classifier_id: primaryClassifierId },
@@ -109,6 +110,7 @@ method.ask = function(question,req, res ,output)
     }
     else
     {
+      console.log(primaryClassifierId);
       console.log(JSON.stringify(response,null,2));
       output(response, req, res);
     }
