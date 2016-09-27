@@ -97,7 +97,7 @@ method.delete = function(id){
   priDelete(id);
 }
 
-method.ask = function(question,req, res ,output)
+method.ask = function(question, output)
 {
 
   nlcAccount.classify({
@@ -110,9 +110,9 @@ method.ask = function(question,req, res ,output)
     }
     else
     {
-      console.log(primaryClassifierId);
-      console.log(JSON.stringify(response,null,2));
-      output(response, req, res);
+      //console.log(primaryClassifierId);
+      //console.log(JSON.stringify(response,null,2));
+      output(response);
     }
 });
 }
