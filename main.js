@@ -13,7 +13,7 @@ var server = http.createServer(function(req, res) {
   } else if (req.method.toLowerCase() == 'post') {
       processFormFieldsIndividual(req, res);
   }
-})
+}).listen(8000, '0.0.0.0');
 
 function displayForm(res) {
     fs.readFile('index.html', function (err, data) {
@@ -25,7 +25,7 @@ function displayForm(res) {
         res.end();
     });
 }
-server.listen(8000);
+
 console.log('server running. try localhost:8000')
 
 
