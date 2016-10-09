@@ -10,7 +10,7 @@ function Drcode()
 
 method.process = function(question, req, res)
 {
-  //console.log(question);
+  //console.log(questio n);  
   res.writeHead(200, {
       'content-type': 'text/plain'
   });
