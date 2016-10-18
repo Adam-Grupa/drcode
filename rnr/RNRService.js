@@ -1,3 +1,14 @@
+/*
+For all functions that require a callback, the callback will be of the form callback(err, response), 
+where err is an error message, if any, and response is a response message, if any. 
+These will be in JSON format. See the Bluemix Retrieve and Rank API for response examples.
+*/
+
+/*
+Constructor for the RNRService object. Requires an initialized watson object 
+(i.e. var watson = require('watson-developer-cloud'))
+and username and password for an existing Retrieve and Rank (RNR) service.
+*/
 var RNRService = function(watson, username, password) {
 
     this.watson = watson;
@@ -9,6 +20,9 @@ var RNRService = function(watson, username, password) {
 
 };
 
+/*
+Creates a new Solr cluster for use with RNR. Requires the cluster size (can be an int from 1 to 7), the name of the cluster, and a callback.
+*/
 RNRService.prototype.createCluster = function(clusterSize, clusterName, callback) {
 
     var params = {
@@ -132,7 +146,7 @@ RNRService.prototype.addDocument = function(doc, clusterId, collectionName, call
                     console.log('Error committing change: ' + err);
                 } else {
                     console.log('Successfully committed changes.');
-                    callback(response);
+                    callback(err, response);
                 }
             });
 
@@ -153,16 +167,7 @@ RNRService.prototype.searchSolrCluster = function(question, clusterId, collectio
     var query = solrClient.createQuery();
     query.q(question);
 
-    solrClient.search(query, function(err, searchResponse) {
-        if(err) {
-            console.log('Error searching for documents: ' + err);
-        }
-        else {
-            console.log('Found ' + searchResponse.response.numFound + ' documents.');
-            console.log('First document: ' + JSON.stringify(searchResponse.response.docs[0], null, 2));
-            callback(response);
-        }
-    });
+    solrClient.search(query, callback);
     
 }
 
@@ -172,13 +177,7 @@ RNRService.prototype.createRanker = function(trainingData, callback) {
         training_data: fs.createReadStream(trainingData)
     };
     
-    this.rnr.createRanker(params, function(err, response) {
-        if (err)
-            console.log('error: ', err);
-        else
-            console.log(JSON.stringify(response, null, 2));
-            callback(response);
-    });
+    this.rnr.createRanker(params, callback);
     
 }
 
@@ -232,15 +231,7 @@ RNRService.prototype.searchAndRank = function(clusterId, collectionName, rankerI
     
     var query = qs.stringify({q: question, ranker_id: rankerId, fl: 'id,title'});
     
-    solrClient.get('fcselect', query, function(err, searchResponse) {
-        if(err) {
-            console.log('Error searching for documents: ' + err);
-        }
-        else {
-            console.log(JSON.stringify(searchResponse.response.docs, null, 2));
-            callback(response);
-        }
-    });
+    solrClient.get('fcselect', query, callback);
     
 }
 
