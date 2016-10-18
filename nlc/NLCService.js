@@ -132,7 +132,7 @@ method.ask2Prev = function(question, output)
     {
       var rList = response.classes;
 
-
+      console.log('Old reponses:'+ '\n');
       // for now, print top three
       for (var i = 0; i<4; i++) {
           console.log(rList[i].class_name + '\n');

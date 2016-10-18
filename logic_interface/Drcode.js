@@ -30,7 +30,7 @@ method.process = function(question, req, res)
     var rList = response.classes;
     res.write('\n');
 
-    // for now, print top three
+    // for now, print top three or four or five....
     for (var i = 0; i<4; i++) {
         res.write(rList[i].class_name + '\n');
         res.write(rList[i].confidence + '\n\n');
@@ -46,7 +46,7 @@ method.process = function(question, req, res)
 getCoreVocab = function(input)
 {
   var checkTokens = " to want wanted like liked catch caught feel felt";
-  checkTokens += " there's there a an i me my mine you your yours he his him she her hers they them their thiers";
+  checkTokens += " what there's there a an i me my mine you your yours he his him she her hers they them their thiers";
   checkTokens += " be am is are was were not and also";
   checkTokens += " may might will  would can could must have had didn't did don't dont can't cant won't wont";
   input = input.toLowerCase();
