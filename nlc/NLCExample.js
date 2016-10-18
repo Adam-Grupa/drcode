@@ -8,5 +8,5 @@ nlc.showList();
 
 
 
-var question = 'Is this a dog?';
-nlc.ask(question);
+//var question = 'Is this a dog?';
+//nlc.ask(question);
