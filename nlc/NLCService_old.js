@@ -117,30 +117,5 @@ method.ask = function(question, output)
 });
 }
 
-method.ask2Prev = function(question, output)
-{
-
-  nlcAccount.classify({
-  text: question,
-  classifier_id: "8aff06x106-nlc-7050" },
-  function(err, response) {
-    if (err)
-    {
-      console.log('error:', err);
-    }
-    else
-    {
-      var rList = response.classes;
-
-
-      // for now, print top three
-      for (var i = 0; i<4; i++) {
-          console.log(rList[i].class_name + '\n');
-          console.log(rList[i].confidence + '\n\n');
-      }
-    }
-});
-}
-
 
 module.exports = NLCService;

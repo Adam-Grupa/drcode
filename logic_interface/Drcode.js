@@ -1,16 +1,18 @@
 var NLCService = require('../nlc/NLCService.js');
+//var NLCService_OLD = require('../nlc/NLCService_old.js');
 var result="";
 
 var method = Drcode.prototype;
-var nlc;
+var nlc, nlc_old;
 function Drcode()
 {
   nlc = new NLCService();
+  //nlc_old = new NLCService_OLD();
 }
 
 method.process = function(question, req, res)
 {
-  //console.log(questio n);  
+  //console.log(questio n);
   res.writeHead(200, {
       'content-type': 'text/plain'
   });
@@ -35,9 +37,9 @@ method.process = function(question, req, res)
     }
 
   res.end();
-  
+
   };
-  
+  nlc.ask2Prev(question, output);
   nlc.ask(question, output);
 }
 
