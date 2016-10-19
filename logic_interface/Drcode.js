@@ -1,16 +1,29 @@
 var NLCService = require('../nlc/NLCService.js');
+var RNRService = require('../rnr/RNRService.js');
+var watson = require('watson-developer-cloud');
 var result="";
 
 var method = Drcode.prototype;
 var nlc;
+var rnr;
+var password;
+var username;
+var clusterId;
+var collectionName;
+
 function Drcode()
 {
+  password = 'VMEopT2nEBGT';
+  username = '80124b70-f44f-4279-9656-7b6a11563891';
+  clusterId = 'sc6a9d6c6f_27e6_4350_8e41_dd35d6650959';
+  collectionName = 'onedisease';
   nlc = new NLCService();
+  rnr = new RNRService.RNRService(watson,username,password);
 }
 
 method.process = function(question, req, res)
 {
-  //console.log(questio n);  
+  //console.log(questio n);
   res.writeHead(200, {
       'content-type': 'text/plain'
   });
@@ -28,16 +41,53 @@ method.process = function(question, req, res)
     var rList = response.classes;
     res.write('\n');
 
-    // for now, print top three
-    for (var i = 0; i<4; i++) {
-        res.write(rList[i].class_name + '\n');
-        res.write(rList[i].confidence + '\n\n');
+    //check the confience of the top class
+    if(rList[0].confience>0.5){
+      // for now, print top three
+      for (var i = 0; i<4; i++) {
+          res.write(rList[i].class_name + '\n');
+          res.write(rList[i].confidence + '\n\n');
+      }
+      res.end();
+    }else{
+      /*rnr.searchAndRank(function(clusterId, collectionName, rankerId, question, function(err, response)) {
+        if (err){
+          console.log('error:', err);
+          //output the nlc result instead
+          for (var i = 0; i<4; i++) {
+              res.write(rList[i].class_name + '\n');
+              res.write(rList[i].confidence + '\n\n');
+          }
+        }
+        else
+          console.log(JSON.stringify(response, null, 2));
+      });*/
+      rnr.searchSolrCluster(question,clusterId,collectionName,function(err,response){
+        res.write('NLC RESULT:\n\n');
+        for (var i = 0; i<4; i++) {
+            res.write(rList[i].class_name + '\n');
+            res.write(rList[i].confidence + '\n\n');
+          }
+        if (err){
+          console.log('error:', err);
+        }
+        else{
+          res.write('RNR RESULT:\n\n');
+          for (var i = 0; i<4; i++) {
+            res.write(JSON.stringify(response.response.docs[i].title, null, 2)+'\n\n');
+          }
+        }
+        res.end();
+      });
     }
 
-  res.end();
-  
+
+
+
+
+
   };
-  
+
   nlc.ask(question, output);
 }
 
