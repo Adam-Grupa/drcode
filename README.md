@@ -22,3 +22,7 @@ NLCService.js
 1. NLC Class - currently based on dog-identifying classifier
 
 ==========================================================================
+
+##Testing Note by Summer:
+to test syntax error, run 'npm test' in each directory, for example test main.js, you run 'cd drcode', 'npm test'.
+Test NLCService, you run 'cd nlc', 'npm test'.

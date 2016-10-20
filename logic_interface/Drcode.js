@@ -1,4 +1,5 @@
 var NLCService = require('../nlc/NLCService.js');
+
 var RNRService = require('../rnr/RNRService.js');
 var watson = require('watson-developer-cloud');
 var result="";
@@ -11,6 +12,10 @@ var username;
 var clusterId;
 var collectionName;
 
+
+var result="";
+var method = Drcode.prototype;
+var nlc;
 function Drcode()
 {
   password = 'VMEopT2nEBGT';
@@ -19,6 +24,7 @@ function Drcode()
   collectionName = 'onedisease';
   nlc = new NLCService();
   rnr = new RNRService.RNRService(watson,username,password);
+
 }
 
 method.process = function(question, req, res)
@@ -81,20 +87,16 @@ method.process = function(question, req, res)
       });
     }
 
-
-
-
-
-
   };
 
-  nlc.ask(question, output);
+  nlc.ask2Prev(question, output);
+  nlc.ask(result, output);
 }
 
 getCoreVocab = function(input)
 {
-  var checkTokens = " to want wanted like liked catch caught feel felt";
-  checkTokens += " there's there a an i me my mine you your yours he his him she her hers they them their thiers";
+  var checkTokens = " to want wanted like liked catch caught feel felt gonna going to im";
+  checkTokens += " what there's there a an i me my mine you your yours he his him she her hers they them their thiers";
   checkTokens += " be am is are was were not and also";
   checkTokens += " may might will  would can could must have had didn't did don't dont can't cant won't wont";
   input = input.toLowerCase();

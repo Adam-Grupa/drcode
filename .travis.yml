@@ -2,3 +2,10 @@ language: node_js
 node_js:
  -"node"
  -"iojs"
+ -"0.11"
+ -"0.10"
+env:
+ - TEST_DIR=logic_interface
+ - TEST_DIR=nlc
+ - TEST_DIR=rnr
+ script: cd $TEST_DIR && nmp install && nmp test

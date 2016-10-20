@@ -1,6 +1,6 @@
 var method = NLCService.prototype;
 var nlcAccount;
-var primaryClassifierId = '2d7ae7x101-nlc-10132';
+var primaryClassifierId = '2d7ae7x101-nlc-10813';
 var cList;
 function NLCService(){
    login();
@@ -113,6 +113,31 @@ method.ask = function(question, output)
       //console.log(primaryClassifierId);
       //console.log(JSON.stringify(response,null,2));
       output(response);
+    }
+});
+}
+
+method.ask2Prev = function(question, output)
+{
+
+  nlcAccount.classify({
+  text: question,
+  classifier_id: "8aff06x106-nlc-7050" },
+  function(err, response) {
+    if (err)
+    {
+      console.log('error:', err);
+    }
+    else
+    {
+      var rList = response.classes;
+
+      console.log('Old reponses:'+ '\n');
+      // for now, print top three
+      for (var i = 0; i<4; i++) {
+          console.log(rList[i].class_name + '\n');
+          console.log(rList[i].confidence + '\n\n');
+      }
     }
 });
 }

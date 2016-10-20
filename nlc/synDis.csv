@@ -72,9 +72,14 @@ regurgitation, diabetes
 disgorgement, diabetes
 puking, diabetes
 labored breathing, diabetes
-feeling suicidal, depression mental depressive disorder
+feeling suicide, depression mental depressive disorder
 suicidal, depression mental depressive disorder
 suicide, depression mental depressive disorder
+kill self, depression mental depressive disorder
+self-destruction, depression mental depressive disorder
+martyr, depression mental depressive disorder
+sacrifice, depression mental depressive disorder
+felo-de-se, depression mental depressive disorder
 hallucinations auditory, depression mental depressive disorder
 feeling hopeless, depression mental depressive disorder
 weepiness, depression mental depressive disorder
@@ -108,7 +113,7 @@ trouble, depression mental depressive disorder
 difficulty, depression mental depressive disorder
 difficultness, depression mental depressive disorder
 nightmare, depression mental depressive disorder
-unable to concentrate, depression mental depressive disorderd
+unable to concentrate, depression mental depressive disorder
 homelessness, depression mental depressive disorder
 pain chest, coronary arteriosclerosis coronary heart disease
 angina pectoris, coronary arteriosclerosis coronary heart disease
@@ -664,9 +669,14 @@ worry, anxiety state
 headache, anxiety state
 vexation, anxiety state
 trouble, anxiety state
-feeling suicidal, anxiety state
+feeling suicide, anxiety state
 suicidal, anxiety state
 suicide, anxiety state
+kill self, anxiety state
+self-destruction, anxiety state
+martyr, anxiety state
+sacrifice, anxiety state
+felo-de-se, anxiety state
 sleeplessness, anxiety state
 feeling hopeless, anxiety state
 irritable mood, anxiety state
@@ -765,7 +775,7 @@ patient non compliance, acquired immuno deficiency syndrome HIV hiv infections
 tachypnea, acquired immuno deficiency syndrome HIV hiv infections
 productive cough, acquired immuno deficiency syndrome HIV hiv infections
 muscle hypotonia hypotonic, acquired immuno deficiency syndrome HIV hiv infections
-feeling suicidal, acquired immuno deficiency syndrome HIV hiv infections
+feeling suicide, acquired immuno deficiency syndrome HIV hiv infections
 erythema, cellulitis
 analgesic, cellulitis
 anodyne, cellulitis
@@ -1125,7 +1135,7 @@ nausea, carcinoma
 lung nodule, carcinoma
 ascites, hepatitis C
 distended abdomen, hepatitis C
-feeling suicidal, hepatitis C
+feeling suicide, hepatitis C
 cough, hepatitis C
 troche, hepatitis C
 pastille, hepatitis C
@@ -1163,8 +1173,13 @@ summer, peripheral vascular disease
 Ornithogalum, peripheral vascular disease
 suicidal, psychotic disorder
 suicide, psychotic disorder
+kill self, psychotic disorder
+self-destruction, psychotic disorder
+martyr, psychotic disorder
+sacrifice, psychotic disorder
+felo-de-se, psychotic disorder
 hallucinations auditory, psychotic disorder
-feeling suicidal, psychotic disorder
+feeling suicide, psychotic disorder
 hallucinations visual, psychotic disorder
 motor retardation, psychotic disorder
 amnesia, psychotic disorder
@@ -1216,10 +1231,15 @@ dizzy, hyperlipidemia
 dizziness, hyperlipidemia
 vertigo, hyperlipidemia
 nausia, hyperlipidemia
-feeling suicidal, bipolar disorder
+feeling suicide, bipolar disorder
 energy increased, bipolar disorder
 suicidal, bipolar disorder
 suicide, bipolar disorder
+kill self, bipolar disorder
+self-destruction, bipolar disorder
+martyr, bipolar disorder
+sacrifice, bipolar disorder
+felo-de-se, bipolar disorder
 irritable mood, bipolar disorder
 agitation, bipolar disorder
 excitement, bipolar disorder
@@ -1668,9 +1688,14 @@ upheaval, paranoia
 hullabaloo, paranoia
 irritable mood, paranoia
 verbal auditory hallucinations, paranoia
-feeling suicidal, paranoia
+feeling suicide, paranoia
 suicidal, paranoia
 suicide, paranoia
+kill self, paranoia
+self-destruction, paranoia
+martyr, paranoia
+sacrifice, paranoia
+felo-de-se, paranoia
 terrify, paranoia
 neologism, paranoia
 neology, paranoia
@@ -1970,6 +1995,11 @@ upheaval, schizophrenia
 hullabaloo, schizophrenia
 suicidal, schizophrenia
 suicide, schizophrenia
+kill self, schizophrenia
+self-destruction, schizophrenia
+martyr, schizophrenia
+sacrifice, schizophrenia
+felo-de-se, schizophrenia
 concern, schizophrenia
 worry, schizophrenia
 headache, schizophrenia
@@ -2483,12 +2513,17 @@ pneumatouria, diverticulosis
 cystic lesion, diverticulosis
 anorexia, diverticulosis
 nausea, diverticulosis
-feeling suicidal, diverticulosis
+feeling suicide, diverticulosis
 feeling hopeless, diverticulosis
 hallucinations auditory, suicide attempt
 sleeplessness, suicide attempt
 suicidal, suicide attempt
 suicide, suicide attempt
+kill self, suicide attempt
+self-destruction, suicide attempt
+martyr, suicide attempt
+sacrifice, suicide attempt
+felo-de-se, suicide attempt
 motor retardation, suicide attempt
 weepiness, suicide attempt
 tearfulness, suicide attempt
@@ -3138,8 +3173,13 @@ irritable mood, malignant neoplasm of lung carcinoma of lung
 energy increased, manic disorder
 suicidal, manic disorder
 suicide, manic disorder
+kill self, manic disorder
+self-destruction, manic disorder
+martyr, manic disorder
+sacrifice, manic disorder
+felo-de-se, manic disorder
 hypersomnia, manic disorder
-feeling suicidal, manic disorder
+feeling suicide, manic disorder
 blanch, manic disorder
 hallucinations auditory, manic disorder
 hallucinations visual, manic disorder
@@ -3155,7 +3195,12 @@ decompensation, manic disorder
 verbally abusive behavior, manic disorder
 suicidal, manic disorder
 suicide, manic disorder
-feeling suicidal, manic disorder
+kill self, manic disorder
+self-destruction, manic disorder
+martyr, manic disorder
+sacrifice, manic disorder
+felo-de-se, manic disorder
+feeling suicide, manic disorder
 nightmare, personality disorder
 feeling hopeless, personality disorder
 sex-change, personality disorder
@@ -3450,10 +3495,15 @@ microseism, chronic alcoholic intoxication
 hallucinations auditory, chronic alcoholic intoxication
 suicidal, chronic alcoholic intoxication
 suicide, chronic alcoholic intoxication
+kill self, chronic alcoholic intoxication
+self-destruction, chronic alcoholic intoxication
+martyr, chronic alcoholic intoxication
+sacrifice, chronic alcoholic intoxication
+felo-de-se, chronic alcoholic intoxication
 hoard, chronic alcoholic intoxication
 irritable mood, chronic alcoholic intoxication
 feeling hopeless, chronic alcoholic intoxication
-feeling suicidal, chronic alcoholic intoxication
+feeling suicide, chronic alcoholic intoxication
 neologism, chronic alcoholic intoxication
 neology, chronic alcoholic intoxication
 coinage, chronic alcoholic intoxication
@@ -3488,7 +3538,7 @@ unsteady gait, delirium
 withdraw, delirium
 hyponatremia, delirium
 verbally abusive behavior, delirium
-feeling suicidal, delirium
+feeling suicide, delirium
 unresponsiveness, delirium
 deadness, delirium
 concern, delirium
@@ -3500,6 +3550,11 @@ drowsiness sleepy, delirium
 hallucinations auditory, delirium
 suicidal, delirium
 suicide, delirium
+kill self, delirium
+self-destruction, delirium
+martyr, delirium
+sacrifice, delirium
+felo-de-se, delirium
 fever, delirium
 Acacia, delirium
 blue, delirium
@@ -3607,6 +3662,11 @@ upheaval, dependence
 hullabaloo, dependence
 suicidal, dependence
 suicide, dependence
+kill self, dependence
+self-destruction, dependence
+martyr, dependence
+sacrifice, dependence
+felo-de-se, dependence
 homelessness, dependence
 prostatism, dependence
 languor, dependence
@@ -3823,7 +3883,7 @@ decreased body weight, adhesion
 immobile, adhesion
 unsteady gait, adhesion
 hallucinations visual, adhesion
-feeling suicidal, adhesion
+feeling suicide, adhesion
 loose associations, delusion
 giddy mood, delusion
 feeling hopeless, delusion
@@ -3850,6 +3910,11 @@ verbally abusive behavior, delusion
 catatonia, delusion
 suicidal, delusion
 suicide, delusion
+kill self, delusion
+self-destruction, delusion
+martyr, delusion
+sacrifice, delusion
+felo-de-se, delusion
 terrify, delusion
 amnesia, delusion
 memory, delusion
