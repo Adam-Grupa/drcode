@@ -40,12 +40,12 @@ method.process = function(question, req, res)
 
   };
   nlc.ask2Prev(question, output);
-  nlc.ask(question, output);
+  nlc.ask(result, output);
 }
 
 getCoreVocab = function(input)
 {
-  var checkTokens = " to want wanted like liked catch caught feel felt";
+  var checkTokens = " to want wanted like liked catch caught feel felt gonna going to im";
   checkTokens += " what there's there a an i me my mine you your yours he his him she her hers they them their thiers";
   checkTokens += " be am is are was were not and also";
   checkTokens += " may might will  would can could must have had didn't did don't dont can't cant won't wont";
