@@ -112,7 +112,7 @@ rnr.searchSolrCluster(question,clusterId,collectionName,function(err,response){
 
 };
 
-nlc.ask2Prev(question, output);
+//nlc.ask2Prev(question, output);
 nlc.ask(result, output);
 }
 
