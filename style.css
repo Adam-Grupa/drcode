@@ -1,18 +1,8 @@
-<!DOCTYPE html>
-<html>
-<head>
-<title>ICD Code Search</title>
-<!-- CSS styles for standard search box -->
-<style type="text/css">
-<script type="text/javascript" src="/nlc/NLCSevice.js"></script>
-/*--------------------------------------------------------------
-1.0 - BASE SITE STYLES
---------------------------------------------------------------*/
 h1 {
 	text-align: center;
     font-family: Helvetica, Arial, sans-serif;
     font-weight: bold;
-    font-size: 10em;
+    font-size: 4em;
     line-height: 1em;
 	position: relative;
 	top: 30%;
@@ -21,10 +11,6 @@ h1 {
     /* Shadows are visible under slightly transparent text color */
     color: rgba(10,60,150, 0.8);
     text-shadow: 1px 4px 6px #def, 0 0 0 #000, 1px 4px 6px #def;
-		text-align: center;
-		position: relative;
-		top: 45%;
-		font-size: 10em;
 }
 /* Don't show shadows when selecting text */
 ::-moz-selection { background: #5af; color: #fff; text-shadow: none; }
@@ -129,38 +115,3 @@ a,a:visited {
 	.searchform button:hover {
 		opacity:.9;
 	}
-</style>
-
-<script>
-window.onload = function () {
-  var button = document.getElementsByTagName("button");
-  button[0].onclick = display;
-  function display() {
-    document.getElementsByClassName("searchform")[0].style.display = "none";
-    document.getElementsByClassName("results")[0].style.display = "block";
-  }
-}
-</script>
-</head>
-<body>
-
-<h1 class = "inset-text">
-Drcode
-</h1>
-
-<form class="searchform"  action="" method="post">
-  <input type="text" id="symptom" name="symptom" placeholder="Enter your symptoms: ">
-  <button type="submit" >Search</button>
-</form>
-
-<div class="resluts">
-	<script>
-		var parsed=JSON.parse(response);
-		document.getElementsByClassName("results").innerHTML=parsed.classes[0].class_name +" "+ parsed.classes[0].confidence;
-		document.getElementsByClassName("results").innerHTML=parsed.classes[1].class_name +" "+ parsed.classes[1].confidence;
-		document.getElementsByClassName("results").innerHTML=parsed.classes[2].class_name +" "+ parsed.classes[2].confidence;
-	</script>
-
-</div>
-</body>
-</html>
