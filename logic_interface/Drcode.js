@@ -1,11 +1,12 @@
 var NLCService = require('../nlc/NLCService.js');
-
+//var NLCService_icd = require('../icdMapping/NLCService.js');
 var RNRService = require('../rnr/RNRService.js');
 var watson = require('watson-developer-cloud');
 var result="";
 
 var method = Drcode.prototype;
 var nlc;
+//var nlcIcd;
 var rnr;
 var password;
 var username;
@@ -23,6 +24,7 @@ function Drcode()
   clusterId = 'sc6a9d6c6f_27e6_4350_8e41_dd35d6650959';
   collectionName = 'icdrnr';
   nlc = new NLCService();
+  //n0lcIcd = new NLCService_icd();
   rnr = new RNRService.RNRService(watson,username,password);
 
 }
@@ -50,6 +52,23 @@ method.process = function(question, req, res)
   res.write(result +'</p>'+'\n');
   // Define function here
   // Javascript closures allow us to remove unneeded function arguments
+  var outputICD = function(response) {
+    // The response is already an object in JSON form
+    var rList = response.classes;
+
+    for (var i = 0; i<4; i++) {
+      res.write('<li>'+'\n');
+      var dName = rList[i].class_name;
+      res.write(dName + '\n');
+      console.log(dName);
+      res.write(rList[i].confidence + '\n\n');
+      res.write('</li>'+'\n');
+    }
+
+  }
+
+
+
   var output = function(response) {
     // The response is already an object in JSON form
     var rList = response.classes;
@@ -64,7 +83,7 @@ method.process = function(question, req, res)
       }
       res.write('</body>'+'\n');
       res.write('</html>'+'\n');
-      res.end();
+      //res.end();
     }else{
       /*rnr.searchAndRank(function(clusterId, collectionName, rankerId, question, function(err, response)) {
       if (err){
@@ -78,14 +97,29 @@ method.process = function(question, req, res)
   else
   console.log(JSON.stringify(response, null, 2));
 });*/
-rnr.searchSolrCluster(question,clusterId,collectionName,function(err,response){
+  rnr.searchSolrCluster(question,clusterId,collectionName,function(err,response){
   res.write('<p>'+'\n');
   res.write('NLC RESULT:\n\n');
   res.write('<ul>'+'\n');
 
   for (var i = 0; i<4; i++) {
     res.write('<li>'+'\n');
-    res.write(rList[i].class_name + '\n');
+    var dName = rList[i].class_name;
+    res.write(dName + '\n');
+
+    if (i==0)
+    {
+      var diseaseForICD= rList[i].class_name;
+      console.log(diseaseForICD);
+      nlc.askICD0(diseaseForICD, outputICD);
+      //nlc.askICD1(diseaseForICD, outputICD);
+      //nlc.askICD2(diseaseForICD, outputICD);
+    //  nlc.askICD3(diseaseForICD, outputICD);
+      //nlc.askICD4(diseaseForICD, outputICD);
+    }
+
+
+
     res.write(rList[i].confidence + '\n\n');
     res.write('</li>'+'\n');
   }
@@ -104,16 +138,32 @@ rnr.searchSolrCluster(question,clusterId,collectionName,function(err,response){
   }
   res.write('</ul>'+'\n');
   res.write('</p>'+'\n');
+
   res.write('</body>'+'\n');
   res.write('</html>'+'\n');
-  res.end();
-});
+
+  //console.log('start sleeping');
+  //sleep(10000);
+  //console.log('end sleeping');
+  //res.end();
+  });
+  }
+
+  };
+
+  //nlc.ask2Prev(question, output);
+  nlc.ask(result, output);
 }
 
-};
+function sleep(milliseconds) {
+  var start = new Date().getTime();
 
-//nlc.ask2Prev(question, output);
-nlc.ask(result, output);
+  for (var i = 0; i < 1e7; i++) {
+    //console.log('');
+    if ((new Date().getTime() - start) > milliseconds){
+      break;
+    }
+  }
 }
 
 getCoreVocab = function(input)

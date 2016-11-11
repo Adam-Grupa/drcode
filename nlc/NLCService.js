@@ -1,6 +1,12 @@
 var method = NLCService.prototype;
 var nlcAccount;
 var primaryClassifierId = '8aff06x106-nlc-13019';
+var set0 = '004a12x110-nlc-2618';
+var set1 = '004a12x110-nlc-2617';
+var set2 = 'f48968x109-nlc-4286';
+var set3 = 'e3ca6dx107-nlc-5156';
+var set4 = '8aff06x106-nlc-13461';
+
 var cList;
 function NLCService(){
    login();
@@ -112,6 +118,96 @@ method.ask = function(question, output)
     {
       //console.log(primaryClassifierId);
       //console.log(JSON.stringify(response,null,2));
+      output(response);
+    }
+});
+}
+
+method.askICD0 = function(question, output)
+{
+
+  nlcAccount.classify({
+  text: question,
+  classifier_id: set0 },
+  function(err, response) {
+    if (err)
+    {
+      console.log('error:', err);
+    }
+    else
+    {
+      output(response);
+    }
+});
+}
+
+method.askICD1 = function(question, output)
+{
+
+  nlcAccount.classify({
+  text: question,
+  classifier_id: set1 },
+  function(err, response) {
+    if (err)
+    {
+      console.log('error:', err);
+    }
+    else
+    {
+      output(response);
+    }
+});
+}
+
+method.askICD2 = function(question, output)
+{
+
+  nlcAccount.classify({
+  text: question,
+  classifier_id: set2 },
+  function(err, response) {
+    if (err)
+    {
+      console.log('error:', err);
+    }
+    else
+    {
+      output(response);
+    }
+});
+}
+
+method.askICD3 = function(question, output)
+{
+
+  nlcAccount.classify({
+  text: question,
+  classifier_id: set3 },
+  function(err, response) {
+    if (err)
+    {
+      console.log('error:', err);
+    }
+    else
+    {
+      output(response);
+    }
+});
+}
+
+method.askICD4 = function(question, output)
+{
+
+  nlcAccount.classify({
+  text: question,
+  classifier_id: set4 },
+  function(err, response) {
+    if (err)
+    {
+      console.log('error:', err);
+    }
+    else
+    {
       output(response);
     }
 });
