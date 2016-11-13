@@ -1,11 +1,12 @@
 var NLCService = require('../nlc/NLCService.js');
-
+//var NLCService_icd = require('../icdMapping/NLCService.js');
 var RNRService = require('../rnr/RNRService.js');
 var watson = require('watson-developer-cloud');
 var result="";
 
 var method = Drcode.prototype;
 var nlc;
+//var nlcIcd;
 var rnr;
 var password;
 var username;
@@ -21,8 +22,9 @@ function Drcode()
   password = 'VMEopT2nEBGT';
   username = '80124b70-f44f-4279-9656-7b6a11563891';
   clusterId = 'sc6a9d6c6f_27e6_4350_8e41_dd35d6650959';
-  collectionName = 'onedisease';
+  collectionName = 'icdrnr';
   nlc = new NLCService();
+  //n0lcIcd = new NLCService_icd();
   rnr = new RNRService.RNRService(watson,username,password);
 
 }
@@ -31,17 +33,42 @@ method.process = function(question, req, res)
 {
   //console.log(questio n);
   res.writeHead(200, {
-      'content-type': 'text/plain'
+    'content-type': 'text/html'
   });
-  res.write('received the data: ');
+  res.write('<!DOCTYPE html>' + '\n');
+  res.write('<html>'+'\n');
+  res.write('<head>');
+  res.write('<title>ICD Code Search</title>'+'\n');
+  res.write('<link rel="stylesheet" type="text/css" href="style.css">');
+  res.write('</head>');
+  res.write('<body>'+'\n');
+  res.write('<h1>Searching Result</h1>');
+  res.write('<p>received the data: ');
   res.write(question + '\n');
 
   result = "";
   getCoreVocab(question);
   res.write('processed data: ');
-  res.write(result + '\n');
+  res.write(result +'</p>'+'\n');
   // Define function here
   // Javascript closures allow us to remove unneeded function arguments
+  var outputICD = function(response) {
+    // The response is already an object in JSON form
+    var rList = response.classes;
+
+    for (var i = 0; i<4; i++) {
+      res.write('<li>'+'\n');
+      var dName = rList[i].class_name;
+      res.write(dName + '\n');
+      console.log(dName);
+      res.write(rList[i].confidence + '\n\n');
+      res.write('</li>'+'\n');
+    }
+
+  }
+
+
+
   var output = function(response) {
     // The response is already an object in JSON form
     var rList = response.classes;
@@ -51,12 +78,15 @@ method.process = function(question, req, res)
     if(rList[0].confience>0.5){
       // for now, print top three
       for (var i = 0; i<4; i++) {
-          res.write(rList[i].class_name + '\n');
-          res.write(rList[i].confidence + '\n\n');
+        res.write(rList[i].class_name + '\n');
+        res.write(rList[i].confidence + '\n\n');
       }
-      res.end();
+      res.write('</body>'+'\n');
+      res.write('</html>'+'\n');
+      //res.end();
     }else{
       /*rnr.searchAndRank(function(clusterId, collectionName, rankerId, question, function(err, response)) {
+
         if (err){
           console.log('error:', err);
           //output the nlc result instead
@@ -68,30 +98,75 @@ method.process = function(question, req, res)
         else
           console.log(JSON.stringify(response, null, 2));
       });*/
-      rnr.searchSolrCluster(question,clusterId,collectionName,function(err,response){
-        res.write('NLC RESULT:\n\n');
-        for (var i = 0; i<4; i++) {
-            res.write(rList[i].class_name + '\n');
-            res.write(rList[i].confidence + '\n\n');
-          }
-        if (err){
-          console.log('error:', err);
-        }
-        else{
-          res.write('RNR RESULT:\n\n');
-        //  console.log(JSON.stringify(response,null,2));
-          for (var i = 0; i<4; i++) {
-            res.write(JSON.stringify(response.response.docs[i].title, null, 2)+'\n\n');
-          }
-        }
-        res.end();
-      });
+
+  rnr.searchSolrCluster(question,clusterId,collectionName,function(err,response){
+  res.write('<p>'+'\n');
+  res.write('NLC RESULT:\n\n');
+  res.write('<ul>'+'\n');
+
+  for (var i = 0; i<4; i++) {
+    res.write('<li>'+'\n');
+    var dName = rList[i].class_name;
+    res.write(dName + '\n');
+
+    if (i==0)
+    {
+      var diseaseForICD= rList[i].class_name;
+      console.log(diseaseForICD);
+      nlc.askICD0(diseaseForICD, outputICD);
+      //nlc.askICD1(diseaseForICD, outputICD);
+      //nlc.askICD2(diseaseForICD, outputICD);
+    //  nlc.askICD3(diseaseForICD, outputICD);
+      //nlc.askICD4(diseaseForICD, outputICD);
+
     }
+
+
+
+    res.write(rList[i].confidence + '\n\n');
+    res.write('</li>'+'\n');
+  }
+  res.write('</ul>'+'\n');
+  if (err){
+    console.log('RNR error:', err);
+  }
+  else{
+    res.write('RNR RESULT:\n\n');
+    res.write('<ul>'+'\n');
+    for (var i = 0; i<4; i++) {
+      res.write('<li>'+'\n');
+      res.write(JSON.stringify(response.response.docs[i].title, null, 2)+'\n\n');
+      res.write('</li>'+'\n');
+    }
+  }
+  res.write('</ul>'+'\n');
+  res.write('</p>'+'\n');
+
+  res.write('</body>'+'\n');
+  res.write('</html>'+'\n');
+
+  //console.log('start sleeping');
+  //sleep(10000);
+  //console.log('end sleeping');
+  //res.end();
+  });
+  }
 
   };
 
-  nlc.ask2Prev(question, output);
+  //nlc.ask2Prev(question, output);
   nlc.ask(result, output);
+}
+
+function sleep(milliseconds) {
+  var start = new Date().getTime();
+
+  for (var i = 0; i < 1e7; i++) {
+    //console.log('');
+    if ((new Date().getTime() - start) > milliseconds){
+      break;
+    }
+  }
 }
 
 getCoreVocab = function(input)
