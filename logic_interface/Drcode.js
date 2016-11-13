@@ -79,6 +79,7 @@ method.process = function(question, req, res)
         }
         else{
           res.write('RNR RESULT:\n\n');
+        //  console.log(JSON.stringify(response,null,2));
           for (var i = 0; i<4; i++) {
             res.write(JSON.stringify(response.response.docs[i].title, null, 2)+'\n\n');
           }
