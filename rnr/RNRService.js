@@ -1,11 +1,11 @@
 /*
-For all functions that require a callback, the callback will be of the form callback(err, response), 
-where err is an error message, if any, and response is a response message, if any. 
+For all functions that require a callback, the callback will be of the form callback(err, response),
+where err is an error message, if any, and response is a response message, if any.
 These will be in JSON format. See the Bluemix Retrieve and Rank API for response examples.
 */
 
 /*
-Constructor for the RNRService object. 
+Constructor for the RNRService object.
 Requires an initialized watson object (i.e. var watson = require('watson-developer-cloud'))
 and username and password for an existing Retrieve and Rank (RNR) service.
 */
@@ -21,8 +21,8 @@ var RNRService = function(watson, username, password) {
 };
 
 /*
-Creates a new Solr cluster for use with RNR. 
-Requires the cluster size (can be an int from 1 to 7. 1 is a small free cluster size), the name of the cluster, 
+Creates a new Solr cluster for use with RNR.
+Requires the cluster size (can be an int from 1 to 7. 1 is a small free cluster size), the name of the cluster,
 and a callback to handle the error and response messages.
 */
 RNRService.prototype.createCluster = function(clusterSize, clusterName, callback) {
@@ -37,7 +37,7 @@ RNRService.prototype.createCluster = function(clusterSize, clusterName, callback
 }
 
 /*
-List the current Solr clusters on the RNR instance and information about them. 
+List the current Solr clusters on the RNR instance and information about them.
 Requires a callback to handle the error and response messages.
 */
 RNRService.prototype.listClusters = function(callback) {
@@ -208,33 +208,34 @@ Requires a question to search for, the cluster id of the cluster, the name of th
 and a callback to handle the error and response messages.
 */
 RNRService.prototype.searchSolrCluster = function(question, clusterId, collectionName, callback) {
-    
+
     var params = {
         cluster_id: clusterId,
         collection_name: collectionName,
     };
-    
-    var solrClient = this.rnr.createSolrClient(params);    
-    
+
+    var solrClient = this.rnr.createSolrClient(params);
+
     var query = solrClient.createQuery();
     query.q(question);
+    query.fl('id, title, confidence');
 
     solrClient.search(query, callback);
-    
+
 }
 
 /*
 Creates and trains a new ranker on the RNR instance.
-Requires a path to a training data file in CSV format and a callback to handle the error and response messages. 
+Requires a path to a training data file in CSV format and a callback to handle the error and response messages.
 */
 RNRService.prototype.createRanker = function(trainingData, callback) {
-    
+
     var params = {
         training_data: fs.createReadStream(trainingData)
     };
-    
+
     this.rnr.createRanker(params, callback);
-    
+
 }
 
 /*
@@ -242,9 +243,9 @@ Lists information about the current rankers on the RNR instance.
 Requires a callback to handle the error and response messages.
 */
 RNRService.prototype.listRankers = function(callback) {
-    
+
     this.rnr.listRankers({}, callback);
-    
+
 }
 
 /*
@@ -252,13 +253,13 @@ Gets detailed information about a specific ranker on the RNR instance.
 Requires the id of the ranker to get information about and a callback to handle the error and response messages.
 */
 RNRService.prototype.rankerStatus = function(rankerId, callback) {
-    
+
     var params = {
-      ranker_id: rankerId  
+      ranker_id: rankerId
     };
-    
+
     this.rnr.rankerStatus(params, callback);
-    
+
 }
 
 /*
@@ -266,13 +267,13 @@ Deletes a ranker on the RNR instance.
 Requires the id of the ranker that you want to delete and a callback to handle the error and response messages.
 */
 RNRService.prototype.deleteRanker = function(rankerId, callback) {
-    
+
     var params = {
-      ranker_id: rankerId  
+      ranker_id: rankerId
     };
-    
+
     this.rnr.deleteRanker(params, callback);
-    
+
 }
 
 /*
@@ -281,14 +282,14 @@ Reuires the ranker id of the ranker to use, the path to a file containing the se
 and a callback to handle the error and response messages.
 */
 RNRService.prototype.rank = function(rankerId, answerData, callback) {
-    
+
     var params = {
       ranker_id: rankerId,
       answer_data: fs.createReadStream(answerData)
     };
-    
+
     this.rnr.rank(params, callback);
-    
+
 }
 
 /*
@@ -297,20 +298,20 @@ Requires the cluster id of the cluster, the name of the collection to search, th
 the question to search for, and a callback to handle the error and response messages.
 */
 RNRService.prototype.searchAndRank = function(clusterId, collectionName, rankerId, question, callback) {
-    
+
     var params = {
       cluster_id: clusterId,
       collection_name: collectionName
     };
-    
+
     var qs = require('qs');
-    
+
     var solrClient = this.rnr.createSolrClient(params);
-    
+
     var query = qs.stringify({q: question, ranker_id: rankerId, fl: 'id,title'});
-    
+
     solrClient.get('fcselect', query, callback);
-    
+
 }
 
 /*
@@ -318,13 +319,13 @@ Retrieves disk memory usage about a Solr cluster on the RNR instance.
 Requires the cluster id of the cluster and a callback to handle the error and response messages.
 */
 RNRService.prototype.getClusterStats = function(clusterId, callback) {
-    
+
     var params = {
       cluster_id: clusterId
     };
-    
+
     this.rnr.getClusterStats(params, callback);
-    
+
 }
 
 module.exports.RNRService = RNRService;

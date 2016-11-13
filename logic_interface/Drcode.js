@@ -86,17 +86,19 @@ method.process = function(question, req, res)
       //res.end();
     }else{
       /*rnr.searchAndRank(function(clusterId, collectionName, rankerId, question, function(err, response)) {
-      if (err){
-      console.log('error:', err);
-      //output the nlc result instead
-      for (var i = 0; i<4; i++) {
-      res.write(rList[i].class_name + '\n');
-      res.write(rList[i].confidence + '\n\n');
-    }
-  }
-  else
-  console.log(JSON.stringify(response, null, 2));
-});*/
+
+        if (err){
+          console.log('error:', err);
+          //output the nlc result instead
+          for (var i = 0; i<4; i++) {
+              res.write(rList[i].class_name + '\n');
+              res.write(rList[i].confidence + '\n\n');
+          }
+        }
+        else
+          console.log(JSON.stringify(response, null, 2));
+      });*/
+
   rnr.searchSolrCluster(question,clusterId,collectionName,function(err,response){
   res.write('<p>'+'\n');
   res.write('NLC RESULT:\n\n');
@@ -116,6 +118,7 @@ method.process = function(question, req, res)
       //nlc.askICD2(diseaseForICD, outputICD);
     //  nlc.askICD3(diseaseForICD, outputICD);
       //nlc.askICD4(diseaseForICD, outputICD);
+
     }
 
 
