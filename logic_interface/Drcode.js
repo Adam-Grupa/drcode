@@ -75,87 +75,68 @@ method.process = function(question, req, res)
     res.write('\n');
 
     //check the confience of the top class
-    if(rList[0].confience>0.5){
+    //!!!!!You should uncomment following after your fix the nlc!!!!!!!
+  /*  if(rList[0].confience>0.5){
       // for now, print top three
+      res.write('NLC RESULT:\n\n');
+      res.write('<ul>'+'\n');
       for (var i = 0; i<4; i++) {
-        res.write(rList[i].class_name + '\n');
-        res.write(rList[i].confidence + '\n\n');
-      }
-      res.write('</body>'+'\n');
-      res.write('</html>'+'\n');
-      //res.end();
-    }else{
-      /*rnr.searchAndRank(function(clusterId, collectionName, rankerId, question, function(err, response)) {
-
-        if (err){
-          console.log('error:', err);
-          //output the nlc result instead
-          for (var i = 0; i<4; i++) {
-              res.write(rList[i].class_name + '\n');
-              res.write(rList[i].confidence + '\n\n');
-          }
+        res.write('<li>'+'\n');
+        var dName = rList[i].class_name;
+        res.write(dName + '\n');
+        if (i==0){
+          var diseaseForICD= rList[i].class_name;
+          console.log(diseaseForICD);
+          nlc.askICD0(diseaseForICD, outputICD);
         }
-        else
-          console.log(JSON.stringify(response, null, 2));
-      });*/
+        res.write(rList[i].confidence + '\n\n');
+        res.write('</li>'+'\n');
+      }
+      res.write('</ul>'+'\n');
+    }else{*/
+      rnr.searchSolrCluster(question,clusterId,collectionName,function(err,response){
+              if (err){
+                console.log('RNR error:', err);
+                //!!!!!You should uncomment following after your fix the nlc!!!!!!!
+                //output nlc result,even the confidence is lower than 0.5
+                /*res.write('NLC RESULT:\n\n');
+                res.write('<ul>'+'\n');
+                for (var i = 0; i<4; i++) {
+                  res.write('<li>'+'\n');
+                  var dName = rList[i].class_name;
+                  res.write(dName + '\n');
+                  if (i==0){
+                    var diseaseForICD= rList[i].class_name;
+                    console.log(diseaseForICD);
+                    nlc.askICD0(diseaseForICD, outputICD);
+                  }
+                  res.write(rList[i].confidence + '\n\n');
+                  res.write('</li>'+'\n');
+                }
+                res.write('</ul>'+'\n');*/
+              }else{
+                res.write('RNR RESULT:\n\n');
+                res.write('<ul>'+'\n');
+                for (var i = 0; i<4; i++) {
+                  res.write('<li>'+'\n');
+                  res.write(JSON.stringify(response.response.docs[i].title, null, 2)+'\n\n');
+                  res.write('</li>'+'\n');
+                }
+              }
+              res.write('</ul>'+'\n');
+              res.write('</p>'+'\n');
+              res.write('</body>'+'\n');
+              res.write('</html>'+'\n');
+});
+//!!!!!You should uncomment following '}' after your fix the nlc!!!!!!!
+//}
+};
 
-  rnr.searchSolrCluster(question,clusterId,collectionName,function(err,response){
-  res.write('<p>'+'\n');
-  res.write('NLC RESULT:\n\n');
-  res.write('<ul>'+'\n');
 
-  for (var i = 0; i<4; i++) {
-    res.write('<li>'+'\n');
-    var dName = rList[i].class_name;
-    res.write(dName + '\n');
-
-    if (i==0)
-    {
-      var diseaseForICD= rList[i].class_name;
-      console.log(diseaseForICD);
-      nlc.askICD0(diseaseForICD, outputICD);
-      //nlc.askICD1(diseaseForICD, outputICD);
-      //nlc.askICD2(diseaseForICD, outputICD);
-    //  nlc.askICD3(diseaseForICD, outputICD);
-      //nlc.askICD4(diseaseForICD, outputICD);
-
-    }
-
-
-
-    res.write(rList[i].confidence + '\n\n');
-    res.write('</li>'+'\n');
-  }
-  res.write('</ul>'+'\n');
-  if (err){
-    console.log('RNR error:', err);
-  }
-  else{
-    res.write('RNR RESULT:\n\n');
-    res.write('<ul>'+'\n');
-    for (var i = 0; i<4; i++) {
-      res.write('<li>'+'\n');
-      res.write(JSON.stringify(response.response.docs[i].title, null, 2)+'\n\n');
-      res.write('</li>'+'\n');
-    }
-  }
-  res.write('</ul>'+'\n');
-  res.write('</p>'+'\n');
-
-  res.write('</body>'+'\n');
-  res.write('</html>'+'\n');
-
-  //console.log('start sleeping');
-  //sleep(10000);
-  //console.log('end sleeping');
-  //res.end();
-  });
-  }
-
-  };
-
-  //nlc.ask2Prev(question, output);
-  nlc.ask(result, output);
+//!!!!!You should uncomment following after your fix the nlc!!!!!!!
+//nlc.ask2Prev(question, output);
+//nlc.ask2Prev(question, output);
+//nlc.ask(result, output);
 }
 
 function sleep(milliseconds) {
