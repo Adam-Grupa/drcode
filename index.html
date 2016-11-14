@@ -19,10 +19,16 @@ h1 {
 }
 .inset-text {
     /* Shadows are visible under slightly transparent text color */
+
+		left: 45%;
+	  padding: 2px 5px;
+		margin: -22px 0 0 -170px;
+		top: 70%;
+	  width:339px;
     color: rgba(10,60,150, 0.8);
     text-shadow: 1px 4px 6px #def, 0 0 0 #000, 1px 4px 6px #def;
 		text-align: center;
-		position: relative;
+		position: absolute;;
 		top: 45%;
 		font-size: 10em;
 }
@@ -129,7 +135,49 @@ a,a:visited {
 	.searchform button:hover {
 		opacity:.9;
 	}
+
+	.recordButtonL button{
+		left: 50%;
+	  padding: 2px 5px;
+	  position: absolute;
+		margin: -22px 0 0 -170px;
+		top: 80%;
+	  width:339px;
+		background: rgb(52,173,236);
+
+		color:#fff;
+		cursor: pointer;
+		font: 13px/13px 'HelveticaNeue', Helvetica, Arial, sans-serif;
+		padding: 10px;
+		width:106px;
+		box-shadow: 0 0 2px #2692dd inset;
+
+	  border-radius: 9px;
+	  -moz-border-radius: 9px;
+	  -webkit-border-radius: 9px;
+	}
+	.recordButtonR button{
+		left: 67%;
+	  padding: 2px 5px;
+	  position: absolute;
+		margin: -22px 0 0 -170px;
+		top: 80%;
+	  width:339px;
+		background: rgb(52,173,236);
+
+		color:#fff;
+		cursor: pointer;
+		font: 13px/13px 'HelveticaNeue', Helvetica, Arial, sans-serif;
+		padding: 10px;
+		width:106px;
+		box-shadow: 0 0 2px #2692dd inset;
+
+	  border-radius: 9px;
+	  -moz-border-radius: 9px;
+	  -webkit-border-radius: 9px;
+	}
 </style>
+<script src="https://cdn.jsdelivr.net/binaryjs/0.2.1/binary.min.js"></script>
 
 <script>
 
@@ -212,6 +260,7 @@ a,a:visited {
 
 </script>
 <script src="./speechToTxt/radioTotxt.js"></script>
+<script src="./speechToTxt/recorder.js"></script>
 </head>
 <body>
 
@@ -223,6 +272,13 @@ Drcode
   <input type="text" id="symptom" name="symptom" placeholder="Enter your symptoms: ">
   <button type="submit" >Search</button>
 </form>
+
+<div class="recordButtonL">
+<button onclick="startRecording();">Start Recording</button>
+</div>
+<div class="recordButtonR">
+<button onclick="stopRecording();">Stop Recording</button>
+</div>
 
 <div class="resluts">
 	<script>
