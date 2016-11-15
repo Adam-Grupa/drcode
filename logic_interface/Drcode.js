@@ -35,29 +35,40 @@ method.process = function(question, req, res)
   res.writeHead(200, {
     'content-type': 'text/html'
   });
+
   res.write('<!DOCTYPE html>' + '\n');
   res.write('<html>'+'\n');
   res.write('<head>');
   res.write('<title>ICD Code Search</title>'+'\n');
-  //res.write('<style type="text/css">')
+  res.write('<style type="text/css">* {font-family:arial, sans-serif;}</style>'+'\n');
+  res.write('<style type="text/css">* body {background-image: url("http://i.imgur.com/SWQcTGl.jpg");}</style>'+'\n');
+  res.write('<style type="text/css">* body {background-size: cover;}</style>'+'\n');
+  res.write('<style type="text/css">* body {color: black;}</style>'+'\n');
+  res.write('<style type="text/css">* ul{background: #77d3ef; width:60%; margin: auto; margin-top: 10px;}</style>'+'\n');
+  res.write('<style type="text/css">* li{background-color: transparent;}</style>'+'\n');
+  res.write('<style type="text/css">* .container{background-color: #FFFFFF; width: 60%; margin: auto; margin-top: 0px; min-height: 100%; padding: 20px; text-align: center;}</style>'+'\n');
+  res.write('<style type="text/css">* .h1{font-size: 5em; font-weight: 700; font-weight: 700; font-weight: 700;}</style>'+'\n');
 
-  res.write('</style>')
-  res.write('<link rel="stylesheet" type="text/css" href="style.css">');
   res.write('</head>');
   res.write('<body>'+'\n');
+  res.write('<div class="container">'+'\n');
   res.write('<h1>Searching Result</h1>');
   res.write('<p>received the data: ');
   res.write(question + '\n');
 
   result = "";
   getCoreVocab(question);
-  res.write('processed data: ');
+  res.write('</br></br>processed data: ');
   res.write(result +'</p>'+'\n');
   // Define function here
   // Javascript closures allow us to remove unneeded function arguments
   var outputICD = function(response) {
+    res.write('<div class="container">'+'\n');
+    res.write('<h2>ICD CODE:</h2>'+'\n');
+
     // The response is already an object in JSON form
     var rList = response.classes;
+    res.write('<ul>'+'\n');
 
     for (var i = 0; i<4; i++) {
       res.write('<li>'+'\n');
@@ -67,6 +78,7 @@ method.process = function(question, req, res)
       res.write(rList[i].confidence + '\n\n');
       res.write('</li>'+'\n');
     }
+    res.write('</ul>'+'\n');
 
   }
 
@@ -81,7 +93,7 @@ method.process = function(question, req, res)
     //!!!!!You should uncomment following after your fix the nlc!!!!!!!
     if(rList[0].confidence>0.5){
       // for now, print top three
-      res.write('NLC RESULT:\n\n');
+      res.write('<h2>NLC RESULT:</h2>\n\n');
       res.write('<ul>'+'\n');
       for (var i = 0; i<4; i++) {
         res.write('<li>'+'\n');
@@ -91,8 +103,10 @@ method.process = function(question, req, res)
           var diseaseForICD= rList[i].class_name;
           console.log(diseaseForICD);
           nlc.askICD0(diseaseForICD, outputICD);
+        //  res.write(outputICD + '\n');
+
         }
-        res.write(rList[i].confidence + '\n\n');
+        res.write(' confidence: '+rList[i].confidence + '\n\n');
         res.write('</li>'+'\n');
       }
       res.write('</ul>'+'\n');
@@ -102,7 +116,7 @@ method.process = function(question, req, res)
                 console.log('RNR error:', err);
                 //!!!!!You should uncomment following after your fix the nlc!!!!!!!
                 //output nlc result,even the confidence is lower than 0.5
-                res.write('NLC RESULT:\n\n');
+                res.write('<h2>NLC RESULT:</h2>\n\n');
                 res.write('<ul>'+'\n');
                 for (var i = 0; i<4; i++) {
                   res.write('<li>'+'\n');
@@ -112,13 +126,19 @@ method.process = function(question, req, res)
                     var diseaseForICD= rList[i].class_name;
                     console.log(diseaseForICD);
                     nlc.askICD0(diseaseForICD, outputICD);
+
                   }
                   res.write(rList[i].confidence + '\n\n');
                   res.write('</li>'+'\n');
                 }
                 res.write('</ul>'+'\n');
+                res.write('</p>'+'\n');
+                res.write('</div>'+'\n');
+
+                res.write('</body>'+'\n');
+                res.write('</html>'+'\n');
               }else{
-                res.write('RNR RESULT:\n\n');
+                res.write('<h2>RNR RESULT:</h2>\n\n');
                 res.write('<ul>'+'\n');
                 for (var i = 0; i<4; i++) {
                   res.write('<li>'+'\n');
@@ -133,6 +153,7 @@ method.process = function(question, req, res)
               }
               res.write('</ul>'+'\n');
               res.write('</p>'+'\n');
+              res.write('</div>'+'\n');
 
               res.write('</body>'+'\n');
               res.write('</html>'+'\n');
