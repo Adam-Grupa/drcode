@@ -177,7 +177,8 @@ method.process = function(question, req, res)
                     nlc.askICD3(diseaseForICD, outputICD);
                     nlc.askICD4(diseaseForICD, outputICD);
                   }
-                  res.write(JSON.stringify(response.response.docs[i].title, null, 2)+'\n\n');
+                  var RNRtitle=JSON.stringify(response.response.docs[i].title, null, 2);
+                  res.write(RNRtitle.substring(1,RNRtitle.length-1)+'\n\n');
                   res.write('</li>'+'\n');
                 }
               }
