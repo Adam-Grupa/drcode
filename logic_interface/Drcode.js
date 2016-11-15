@@ -56,13 +56,13 @@ method.process = function(question, req, res)
   res.write('<body>'+'\n');
   res.write('<div class="container">'+'\n');
   res.write('<h1>Searching Result</h1>');
-  res.write('<p>received the data: ');
-  res.write(question + '\n');
+  //res.write('<p>received the data: ');
+  //res.write(question + '\n');
 
   result = "";
   getCoreVocab(question);
-  res.write('</br></br>processed data: ');
-  res.write(result +'</p>'+'\n');
+  //res.write('</br></br>processed data: ');
+  //res.write(result +'</p>'+'\n');
   // Define function here
   // Javascript closures allow us to remove unneeded function arguments
   var outputICD = function(response) {
@@ -80,6 +80,7 @@ method.process = function(question, req, res)
 
     if(index==5)
     {
+        res.write('ICD Codes'+'\n');
         res.write('<ul>'+'\n');
         for (var ii = 0; ii<5; ii++)
         {
@@ -89,6 +90,12 @@ method.process = function(question, req, res)
           res.write(str.substring(2,4) + '%<br>');
         }
         res.write('</ul>'+'\n');
+        for(var i=0; 100; i++)
+        {
+          sleep(10);
+        }
+        res.end();
+
     }
 
   }
