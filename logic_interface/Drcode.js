@@ -119,23 +119,25 @@ method.process = function(question, req, res)
                 res.write('<ul>'+'\n');
                 for (var i = 0; i<4; i++) {
                   res.write('<li>'+'\n');
+                  if (i==0){
+                    var diseaseForICD= JSON.stringify(response.response.docs[i].title, null, 2);
+                    console.log(diseaseForICD);
+                    nlc.askICD0(diseaseForICD, outputICD);
+                  }
                   res.write(JSON.stringify(response.response.docs[i].title, null, 2)+'\n\n');
                   res.write('</li>'+'\n');
                 }
               }
               res.write('</ul>'+'\n');
               res.write('</p>'+'\n');
+
               res.write('</body>'+'\n');
               res.write('</html>'+'\n');
-});
-//!!!!!You should uncomment following '}' after your fix the nlc!!!!!!!
-}
+              });
+    }
 };
 
 
-//!!!!!You should uncomment following after your fix the nlc!!!!!!!
-//nlc.ask2Prev(question, output);
-//nlc.ask2Prev(question, output);
 nlc.ask(result, output);
 }
 

@@ -218,8 +218,8 @@ RNRService.prototype.searchSolrCluster = function(question, clusterId, collectio
 
     var query = solrClient.createQuery();
     query.q(question);
-    query.fl('id, title, confidence');
-
+    //query.fl('id, title, confidence');
+    query.fl('id,title,confidence');
     solrClient.search(query, callback);
 
 }
