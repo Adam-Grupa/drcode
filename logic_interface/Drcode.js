@@ -79,7 +79,28 @@ method.process = function(question, req, res)
       res.write('</li>'+'\n');
     }
     res.write('</ul>'+'\n');
+  }
 
+  var outputICDLast = function(response) {
+    res.write('<div class="container">'+'\n');
+    res.write('<h2>ICD CODE:</h2>'+'\n');
+
+    // The response is already an object in JSON form
+    var rList = response.classes;
+    res.write('<ul>'+'\n');
+
+    for (var i = 0; i<4; i++) {
+      res.write('<li>'+'\n');
+      var dName = rList[i].class_name;
+      res.write(dName + '\n');
+      console.log(dName);
+      res.write(rList[i].confidence + '\n\n');
+      res.write('</li>'+'\n');
+    }
+    res.write('</ul>'+'\n');
+
+    //sleep(5000);
+    //res.end();
   }
 
 
@@ -124,9 +145,12 @@ method.process = function(question, req, res)
                   res.write(dName + '\n');
                   if (i==0){
                     var diseaseForICD= rList[i].class_name;
-                    console.log(diseaseForICD);
+                    //console.log(diseaseForICD);
                     nlc.askICD0(diseaseForICD, outputICD);
-
+                    nlc.askICD1(diseaseForICD, outputICD);
+                    nlc.askICD2(diseaseForICD, outputICD);
+                    nlc.askICD3(diseaseForICD, outputICD);
+                    nlc.askICD4(diseaseForICD, outputICDLast);
                   }
                   res.write(rList[i].confidence + '\n\n');
                   res.write('</li>'+'\n');
@@ -144,8 +168,12 @@ method.process = function(question, req, res)
                   res.write('<li>'+'\n');
                   if (i==0){
                     var diseaseForICD= JSON.stringify(response.response.docs[i].title, null, 2);
-                    console.log(diseaseForICD);
+                    //console.log(diseaseForICD);
                     nlc.askICD0(diseaseForICD, outputICD);
+                    nlc.askICD1(diseaseForICD, outputICD);
+                    nlc.askICD2(diseaseForICD, outputICD);
+                    nlc.askICD3(diseaseForICD, outputICD);
+                    nlc.askICD4(diseaseForICD, outputICDLast);
                   }
                   res.write(JSON.stringify(response.response.docs[i].title, null, 2)+'\n\n');
                   res.write('</li>'+'\n');
