@@ -1,7 +1,7 @@
 {
   "name": "drcode",
   "version": "1.0.0",
-  "description": "",
+  "description": "========================================================================== Sep.20 Note by Elliot:",
   "main": "main.js",
   "dependencies": {
     "audiobuffer-to-wav": "^1.0.0",
@@ -25,5 +25,8 @@
   "bugs": {
     "url": "https://github.com/Adam-Grupa/drcode/issues"
   },
-  "homepage": "https://github.com/Adam-Grupa/drcode#readme"
+  "homepage": "https://github.com/Adam-Grupa/drcode#readme",
+  "directories": {
+    "test": "tests"
+  }
 }

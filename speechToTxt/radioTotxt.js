@@ -91,6 +91,7 @@ function convertToTxt() {
         // Displays events on the console.
         function onEvent(name, event) {
           console.log(name, JSON.stringify(event, null, 2));
+
         }
       });
     });

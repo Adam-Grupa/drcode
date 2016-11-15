@@ -1,6 +1,5 @@
 (function(window) {
   var client = new BinaryClient('ws://localhost:9001');
-
   client.on('open', function() {
     window.Stream = client.createStream();
 
@@ -24,6 +23,16 @@
     window.stopRecording = function() {
       recording = false;
       window.Stream.end();
+      var text = "EMPTY";
+      window.setTimeout(function() {
+        var xmlHttp = new XMLHttpRequest();
+        xmlHttp.open( "GET", "/getstring", false ); // false for synchronous request
+        xmlHttp.send(null);
+        console.log(xmlHttp.responseText);
+        text = xmlHttp.responseText.trim().replace(/['"]+/g, '');
+        window.document.getElementById("symptom").value += text;
+      }, 8000);
+
     }
 
     function success(e) {
@@ -41,9 +50,7 @@
         console.log ('recording');
         var left = e.inputBuffer.getChannelData(0);
         window.Stream.write(convertoFloat32ToInt16(left));
-
       }
-
       audioInput.connect(recorder)
       recorder.connect(context.destination);
     }
