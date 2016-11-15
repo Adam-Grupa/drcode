@@ -39,6 +39,9 @@ method.process = function(question, req, res)
   res.write('<html>'+'\n');
   res.write('<head>');
   res.write('<title>ICD Code Search</title>'+'\n');
+  //res.write('<style type="text/css">')
+
+  res.write('</style>')
   res.write('<link rel="stylesheet" type="text/css" href="style.css">');
   res.write('</head>');
   res.write('<body>'+'\n');
