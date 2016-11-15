@@ -31,7 +31,10 @@ function Drcode()
 
 method.process = function(question, req, res)
 {
-  //console.log(questio n);
+  var icdCode=['','','','',''];
+  var icdProb = [0,0,0,0,0];
+  var index = 0;
+
   res.writeHead(200, {
     'content-type': 'text/html'
   });
@@ -46,7 +49,7 @@ method.process = function(question, req, res)
   res.write('<style type="text/css">* body {color: black;}</style>'+'\n');
   res.write('<style type="text/css">* ul{background: #77d3ef; width:60%; margin: auto; margin-top: 10px;}</style>'+'\n');
   res.write('<style type="text/css">* li{background-color: transparent;}</style>'+'\n');
-  res.write('<style type="text/css">* .container{background-color: #FFFFFF; width: 60%; margin: auto; margin-top: 0px; min-height: 100%; padding: 20px; text-align: center;}</style>'+'\n');
+  res.write('<style type="text/css">* .container{background-color: #FFFFFF; width: 60%; margin: auto; margin-top: 0px; min-height: 60%; padding: 20px; text-align: center;}</style>'+'\n');
   res.write('<style type="text/css">* .h1{font-size: 5em; font-weight: 700; font-weight: 700; font-weight: 700;}</style>'+'\n');
 
   res.write('</head>');
@@ -63,45 +66,32 @@ method.process = function(question, req, res)
   // Define function here
   // Javascript closures allow us to remove unneeded function arguments
   var outputICD = function(response) {
-    res.write('<div class="container">'+'\n');
-    res.write('<h2>ICD CODE:</h2>'+'\n');
-
+    if (index==0) res.write('<div class="container">'+'\n');
     // The response is already an object in JSON form
     var rList = response.classes;
-    res.write('<ul>'+'\n');
 
-    for (var i = 0; i<4; i++) {
-      res.write('<li>'+'\n');
-      var dName = rList[i].class_name;
-      res.write(dName + '\n');
-      console.log(dName);
-      res.write(rList[i].confidence + '\n\n');
-      res.write('</li>'+'\n');
+
+    icdCode[index] = rList[0].class_name;
+    icdProb[index] = rList[0].confidence;
+    index ++;
+    console.log(index);
+
+
+
+    if(index==5)
+    {
+        res.write('<ul>'+'\n');
+        for (var ii = 0; ii<5; ii++)
+        {
+          res.write(icdCode[ii]);
+          res.write(': ');
+          res.write(icdProb[ii] + '<br>');
+        }
+        res.write('</ul>'+'\n');
     }
-    res.write('</ul>'+'\n');
+
   }
 
-  var outputICDLast = function(response) {
-    res.write('<div class="container">'+'\n');
-    res.write('<h2>ICD CODE:</h2>'+'\n');
-
-    // The response is already an object in JSON form
-    var rList = response.classes;
-    res.write('<ul>'+'\n');
-
-    for (var i = 0; i<4; i++) {
-      res.write('<li>'+'\n');
-      var dName = rList[i].class_name;
-      res.write(dName + '\n');
-      console.log(dName);
-      res.write(rList[i].confidence + '\n\n');
-      res.write('</li>'+'\n');
-    }
-    res.write('</ul>'+'\n');
-
-    //sleep(5000);
-    //res.end();
-  }
 
 
 
@@ -150,7 +140,7 @@ method.process = function(question, req, res)
                     nlc.askICD1(diseaseForICD, outputICD);
                     nlc.askICD2(diseaseForICD, outputICD);
                     nlc.askICD3(diseaseForICD, outputICD);
-                    nlc.askICD4(diseaseForICD, outputICDLast);
+                    nlc.askICD4(diseaseForICD, outputICD);
                   }
                   res.write(rList[i].confidence + '\n\n');
                   res.write('</li>'+'\n');
@@ -173,7 +163,7 @@ method.process = function(question, req, res)
                     nlc.askICD1(diseaseForICD, outputICD);
                     nlc.askICD2(diseaseForICD, outputICD);
                     nlc.askICD3(diseaseForICD, outputICD);
-                    nlc.askICD4(diseaseForICD, outputICDLast);
+                    nlc.askICD4(diseaseForICD, outputICD);
                   }
                   res.write(JSON.stringify(response.response.docs[i].title, null, 2)+'\n\n');
                   res.write('</li>'+'\n');
@@ -187,6 +177,7 @@ method.process = function(question, req, res)
               res.write('</html>'+'\n');
               });
     }
+
 };
 
 
