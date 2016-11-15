@@ -31,44 +31,75 @@ function Drcode()
 
 method.process = function(question, req, res)
 {
-  //console.log(questio n);
+  var icdCode=['','','','',''];
+  var icdProb = [0,0,0,0,0];
+  var index = 0;
+
   res.writeHead(200, {
     'content-type': 'text/html'
   });
+
   res.write('<!DOCTYPE html>' + '\n');
   res.write('<html>'+'\n');
   res.write('<head>');
   res.write('<title>ICD Code Search</title>'+'\n');
-  //res.write('<style type="text/css">')
+  res.write('<style type="text/css">* {font-family:arial, sans-serif;}</style>'+'\n');
+  res.write('<style type="text/css">* body {background-image: url("http://i.imgur.com/SWQcTGl.jpg");}</style>'+'\n');
+  res.write('<style type="text/css">* body {background-size: cover;}</style>'+'\n');
+  res.write('<style type="text/css">* body {color: black;}</style>'+'\n');
+  res.write('<style type="text/css">* ul{background: #77d3ef; width:60%; margin: auto; margin-top: 10px;}</style>'+'\n');
+  res.write('<style type="text/css">* li{background-color: transparent;}</style>'+'\n');
+  res.write('<style type="text/css">* .container{background-color: #FFFFFF; width: 60%; margin: auto; margin-top: 0px; min-height: 60%; padding: 20px; text-align: center;}</style>'+'\n');
+  res.write('<style type="text/css">* .h1{font-size: 5em; font-weight: 700; font-weight: 700; font-weight: 700;}</style>'+'\n');
 
-  res.write('</style>')
-  res.write('<link rel="stylesheet" type="text/css" href="style.css">');
   res.write('</head>');
   res.write('<body>'+'\n');
+  res.write('<div class="container">'+'\n');
   res.write('<h1>Searching Result</h1>');
-  res.write('<p>received the data: ');
-  res.write(question + '\n');
+  //res.write('<p>received the data: ');
+  //res.write(question + '\n');
 
   result = "";
   getCoreVocab(question);
-  res.write('processed data: ');
-  res.write(result +'</p>'+'\n');
+  //res.write('</br></br>processed data: ');
+  //res.write(result +'</p>'+'\n');
   // Define function here
   // Javascript closures allow us to remove unneeded function arguments
   var outputICD = function(response) {
+    if (index==0) res.write('<div class="container">'+'\n');
     // The response is already an object in JSON form
     var rList = response.classes;
 
-    for (var i = 0; i<4; i++) {
-      res.write('<li>'+'\n');
-      var dName = rList[i].class_name;
-      res.write(dName + '\n');
-      console.log(dName);
-      res.write(rList[i].confidence + '\n\n');
-      res.write('</li>'+'\n');
+
+    icdCode[index] = rList[0].class_name;
+    icdProb[index] = rList[0].confidence;
+    index ++;
+    console.log(index);
+
+
+
+    if(index==5)
+    {
+        res.write('ICD Codes'+'\n');
+        res.write('<ul>'+'\n');
+        for (var ii = 0; ii<5; ii++)
+        {
+          res.write(icdCode[ii]);
+          res.write(': ');
+          var str = icdProb[ii].toString();
+          res.write(str.substring(2,4) + '%<br>');
+        }
+        res.write('</ul>'+'\n');
+        for(var i=0; 100; i++)
+        {
+          sleep(10);
+        }
+        res.end();
+
     }
 
   }
+
 
 
 
@@ -81,7 +112,7 @@ method.process = function(question, req, res)
     //!!!!!You should uncomment following after your fix the nlc!!!!!!!
     if(rList[0].confidence>0.5){
       // for now, print top three
-      res.write('NLC RESULT:\n\n');
+      res.write('<h2>NLC RESULT:</h2>\n\n');
       res.write('<ul>'+'\n');
       for (var i = 0; i<4; i++) {
         res.write('<li>'+'\n');
@@ -91,8 +122,14 @@ method.process = function(question, req, res)
           var diseaseForICD= rList[i].class_name;
           console.log(diseaseForICD);
           nlc.askICD0(diseaseForICD, outputICD);
+          nlc.askICD1(diseaseForICD, outputICD);
+          nlc.askICD2(diseaseForICD, outputICD);
+          nlc.askICD3(diseaseForICD, outputICD);
+          nlc.askICD4(diseaseForICD, outputICD);
         }
-        res.write(rList[i].confidence + '\n\n');
+
+        var str = rList[i].confidence.toString();
+        res.write(' confidence: '+ str.substring(2,4) + '%\n\n');
         res.write('</li>'+'\n');
       }
       res.write('</ul>'+'\n');
@@ -102,7 +139,7 @@ method.process = function(question, req, res)
                 console.log('RNR error:', err);
                 //!!!!!You should uncomment following after your fix the nlc!!!!!!!
                 //output nlc result,even the confidence is lower than 0.5
-                res.write('NLC RESULT:\n\n');
+                res.write('<h2>NLC RESULT:</h2>\n\n');
                 res.write('<ul>'+'\n');
                 for (var i = 0; i<4; i++) {
                   res.write('<li>'+'\n');
@@ -110,34 +147,50 @@ method.process = function(question, req, res)
                   res.write(dName + '\n');
                   if (i==0){
                     var diseaseForICD= rList[i].class_name;
-                    console.log(diseaseForICD);
+                    //console.log(diseaseForICD);
                     nlc.askICD0(diseaseForICD, outputICD);
+                    nlc.askICD1(diseaseForICD, outputICD);
+                    nlc.askICD2(diseaseForICD, outputICD);
+                    nlc.askICD3(diseaseForICD, outputICD);
+                    nlc.askICD4(diseaseForICD, outputICD);
                   }
                   res.write(rList[i].confidence + '\n\n');
                   res.write('</li>'+'\n');
                 }
                 res.write('</ul>'+'\n');
+                res.write('</p>'+'\n');
+                res.write('</div>'+'\n');
+
+                res.write('</body>'+'\n');
+                res.write('</html>'+'\n');
               }else{
-                res.write('RNR RESULT:\n\n');
+                res.write('<h2>RNR RESULT:</h2>\n\n');
                 res.write('<ul>'+'\n');
                 for (var i = 0; i<4; i++) {
                   res.write('<li>'+'\n');
                   if (i==0){
                     var diseaseForICD= JSON.stringify(response.response.docs[i].title, null, 2);
-                    console.log(diseaseForICD);
+                    //console.log(diseaseForICD);
                     nlc.askICD0(diseaseForICD, outputICD);
+                    nlc.askICD1(diseaseForICD, outputICD);
+                    nlc.askICD2(diseaseForICD, outputICD);
+                    nlc.askICD3(diseaseForICD, outputICD);
+                    nlc.askICD4(diseaseForICD, outputICD);
                   }
-                  res.write(JSON.stringify(response.response.docs[i].title, null, 2)+'\n\n');
+                  var RNRtitle=JSON.stringify(response.response.docs[i].title, null, 2);
+                  res.write(RNRtitle.substring(1,RNRtitle.length-1)+'\n\n');
                   res.write('</li>'+'\n');
                 }
               }
               res.write('</ul>'+'\n');
               res.write('</p>'+'\n');
+              res.write('</div>'+'\n');
 
               res.write('</body>'+'\n');
               res.write('</html>'+'\n');
               });
     }
+
 };
 
 
