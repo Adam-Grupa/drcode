@@ -76,7 +76,7 @@ method.process = function(question, req, res)
 
     //check the confience of the top class
     //!!!!!You should uncomment following after your fix the nlc!!!!!!!
-  /*  if(rList[0].confience>0.5){
+    if(rList[0].confidence>0.5){
       // for now, print top three
       res.write('NLC RESULT:\n\n');
       res.write('<ul>'+'\n');
@@ -93,13 +93,13 @@ method.process = function(question, req, res)
         res.write('</li>'+'\n');
       }
       res.write('</ul>'+'\n');
-    }else{*/
+    }else{
       rnr.searchSolrCluster(question,clusterId,collectionName,function(err,response){
               if (err){
                 console.log('RNR error:', err);
                 //!!!!!You should uncomment following after your fix the nlc!!!!!!!
                 //output nlc result,even the confidence is lower than 0.5
-                /*res.write('NLC RESULT:\n\n');
+                res.write('NLC RESULT:\n\n');
                 res.write('<ul>'+'\n');
                 for (var i = 0; i<4; i++) {
                   res.write('<li>'+'\n');
@@ -113,7 +113,7 @@ method.process = function(question, req, res)
                   res.write(rList[i].confidence + '\n\n');
                   res.write('</li>'+'\n');
                 }
-                res.write('</ul>'+'\n');*/
+                res.write('</ul>'+'\n');
               }else{
                 res.write('RNR RESULT:\n\n');
                 res.write('<ul>'+'\n');
@@ -129,14 +129,14 @@ method.process = function(question, req, res)
               res.write('</html>'+'\n');
 });
 //!!!!!You should uncomment following '}' after your fix the nlc!!!!!!!
-//}
+}
 };
 
 
 //!!!!!You should uncomment following after your fix the nlc!!!!!!!
 //nlc.ask2Prev(question, output);
 //nlc.ask2Prev(question, output);
-//nlc.ask(result, output);
+nlc.ask(result, output);
 }
 
 function sleep(milliseconds) {
