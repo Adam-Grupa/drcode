@@ -85,7 +85,8 @@ method.process = function(question, req, res)
         {
           res.write(icdCode[ii]);
           res.write(': ');
-          res.write(icdProb[ii] + '<br>');
+          var str = icdProb[ii].toString();
+          res.write(str.substring(2,4) + '%<br>');
         }
         res.write('</ul>'+'\n');
     }
@@ -114,10 +115,14 @@ method.process = function(question, req, res)
           var diseaseForICD= rList[i].class_name;
           console.log(diseaseForICD);
           nlc.askICD0(diseaseForICD, outputICD);
-        //  res.write(outputICD + '\n');
-
+          nlc.askICD1(diseaseForICD, outputICD);
+          nlc.askICD2(diseaseForICD, outputICD);
+          nlc.askICD3(diseaseForICD, outputICD);
+          nlc.askICD4(diseaseForICD, outputICD);
         }
-        res.write(' confidence: '+rList[i].confidence + '\n\n');
+
+        var str = rList[i].confidence.toString();
+        res.write(' confidence: '+ str.substring(2,4) + '%\n\n');
         res.write('</li>'+'\n');
       }
       res.write('</ul>'+'\n');
