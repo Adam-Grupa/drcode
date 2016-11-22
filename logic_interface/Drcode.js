@@ -2,11 +2,7 @@ var NLCService = require('../nlc/NLCService.js');
 //var NLCService_icd = require('../icdMapping/NLCService.js');
 var RNRService = require('../rnr/RNRService.js');
 var watson = require('watson-developer-cloud');
-var result="";
 
-var method = Drcode.prototype;
-var nlc;
-//var nlcIcd;
 var rnr;
 var password;
 var username;
@@ -29,11 +25,11 @@ function Drcode()
 
 }
 
-method.process = function(question, req, res)
-{
+method.process = function(question, req, res) {
   var icdCode=['','','','',''];
   var icdProb = [0,0,0,0,0];
   var index = 0;
+  var completed = [false, false, false, false, false];
 
   res.writeHead(200, {
     'content-type': 'text/html'
@@ -73,32 +69,27 @@ method.process = function(question, req, res)
 
     icdCode[index] = rList[0].class_name;
     icdProb[index] = rList[0].confidence;
-    index ++;
-    console.log(index);
 
+    completed[index] = true;
 
+    if (completed.every(Boolean)) {
 
-    if(index==5)
-    {
-        res.write('ICD Codes'+'\n');
-        res.write('<ul>'+'\n');
-        for (var ii = 0; ii<5; ii++)
-        {
+      res.write('ICD Codes'+'\n');
+      res.write('<ul>'+'\n');
+      for (var ii = 0; ii<5; ii++) {
           res.write(icdCode[ii]);
           res.write(': ');
           var str = icdProb[ii].toString();
           res.write(str.substring(2,4) + '%<br>');
-        }
-        res.write('</ul>'+'\n');
-        for(var i=0; 100; i++)
-        {
-          sleep(10);
-        }
-        res.end();
+      }
+      res.write('</ul>'+'\n');
 
+      res.end();
     }
 
-  }
+    index++;
+
+  };
 
 
 
@@ -114,19 +105,14 @@ method.process = function(question, req, res)
       // for now, print top three
       res.write('<h2>NLC RESULT:</h2>\n\n');
       res.write('<ul>'+'\n');
-      for (var i = 0; i<4; i++) {
+      for (var i = 0; i<5; i++) {
         res.write('<li>'+'\n');
         var dName = rList[i].class_name;
         res.write(dName + '\n');
-        if (i==0){
-          var diseaseForICD= rList[i].class_name;
-          console.log(diseaseForICD);
-          nlc.askICD0(diseaseForICD, outputICD);
-          nlc.askICD1(diseaseForICD, outputICD);
-          nlc.askICD2(diseaseForICD, outputICD);
-          nlc.askICD3(diseaseForICD, outputICD);
-          nlc.askICD4(diseaseForICD, outputICD);
-        }
+
+        //console.log(rList[0].class_name);
+
+        nlc.ask(rList[0].class_name, outputICD, i);
 
         var str = rList[i].confidence.toString();
         res.write(' confidence: '+ str.substring(2,4) + '%\n\n');
@@ -135,25 +121,22 @@ method.process = function(question, req, res)
       res.write('</ul>'+'\n');
     }else{
       rnr.searchSolrCluster(question,clusterId,collectionName,function(err,response){
-              if (err){
+
+          var rnrExecuted = false;
+
+          if (err){
                 console.log('RNR error:', err);
                 //!!!!!You should uncomment following after your fix the nlc!!!!!!!
                 //output nlc result,even the confidence is lower than 0.5
                 res.write('<h2>NLC RESULT:</h2>\n\n');
                 res.write('<ul>'+'\n');
-                for (var i = 0; i<4; i++) {
+                for (var i = 0; i<5; i++) {
                   res.write('<li>'+'\n');
                   var dName = rList[i].class_name;
                   res.write(dName + '\n');
-                  if (i==0){
-                    var diseaseForICD= rList[i].class_name;
-                    //console.log(diseaseForICD);
-                    nlc.askICD0(diseaseForICD, outputICD);
-                    nlc.askICD1(diseaseForICD, outputICD);
-                    nlc.askICD2(diseaseForICD, outputICD);
-                    nlc.askICD3(diseaseForICD, outputICD);
-                    nlc.askICD4(diseaseForICD, outputICD);
-                  }
+
+                  nlc.ask(rList[0].class_name, outputICD, i);
+
                   res.write(rList[i].confidence + '\n\n');
                   res.write('</li>'+'\n');
                 }
@@ -166,21 +149,28 @@ method.process = function(question, req, res)
               }else{
                 res.write('<h2>RNR RESULT:</h2>\n\n');
                 res.write('<ul>'+'\n');
-                for (var i = 0; i<4; i++) {
-                  res.write('<li>'+'\n');
-                  if (i==0){
-                    var diseaseForICD= JSON.stringify(response.response.docs[i].title, null, 2);
-                    //console.log(diseaseForICD);
-                    nlc.askICD0(diseaseForICD, outputICD);
-                    nlc.askICD1(diseaseForICD, outputICD);
-                    nlc.askICD2(diseaseForICD, outputICD);
-                    nlc.askICD3(diseaseForICD, outputICD);
-                    nlc.askICD4(diseaseForICD, outputICD);
+
+                if (response.response.numFound > 0) {
+
+                  rnrExecuted = true;
+
+                  for (var i = 0; i<5; i++) {
+                      res.write('<li>'+'\n');
+
+                      if (response.numFound > i) {
+                          nlc.ask(JSON.stringify(response.response.docs[0].title, null, 2), outputICD, i);
+                          var RNRtitle=JSON.stringify(response.response.docs[i].title, null, 2);
+                          res.write(RNRtitle.substring(1,RNRtitle.length-1)+'\n\n');
+                      }
+                      res.write('</li>'+'\n');
                   }
-                  var RNRtitle=JSON.stringify(response.response.docs[i].title, null, 2);
-                  res.write(RNRtitle.substring(1,RNRtitle.length-1)+'\n\n');
-                  res.write('</li>'+'\n');
+
+                } else {
+
+                  res.write('<h4>No responses found</h4>\n');
+
                 }
+
               }
               res.write('</ul>'+'\n');
               res.write('</p>'+'\n');
@@ -188,14 +178,19 @@ method.process = function(question, req, res)
 
               res.write('</body>'+'\n');
               res.write('</html>'+'\n');
+
+              if (!rnrExecuted) {
+                res.end();
+              }
+
               });
     }
 
 };
 
-
 nlc.ask(result, output);
-}
+
+};
 
 function sleep(milliseconds) {
   var start = new Date().getTime();

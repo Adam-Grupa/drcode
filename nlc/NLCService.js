@@ -1,16 +1,12 @@
 var method = NLCService.prototype;
 var nlcAccount;
 var primaryClassifierId = '8aff06x106-nlc-13854';
-var set0 = '8aff06x106-nlc-13858';
-var set1 = 'f48968x109-nlc-5099';
-var set2 = 'e82f62x108-nlc-5311';
-var set3 = '004a12x110-nlc-3415';
-var set4 = 'f48968x109-nlc-5098';
+var icdClassifiers = ['8aff06x106-nlc-13858', 'f48968x109-nlc-5099', 'e82f62x108-nlc-5311', '004a12x110-nlc-3415', 'f48968x109-nlc-5098'];
 
 var cList;
 function NLCService(){
    login();
-};
+}
 
 login = function(){
   //var fs  = require("fs");
@@ -51,7 +47,7 @@ getList = function(functionToDo){
     }
   });
 
-}
+};
 
 method.create = function(fileName, cName){
   var trainSet = train(fileName, cName);
@@ -62,12 +58,12 @@ method.create = function(fileName, cName){
     console.log(JSON.stringify(response, null, 2));
   });
   console.log(nlc)
-}
+};
 
 method.showList = function(){
    getList(priPrintList);
    console.log(cList);
-}
+};
 
 priPrintList = function(cList){
   console.log('total ' + cList.length + ' calssifiers. \n')
@@ -79,11 +75,11 @@ priPrintList = function(cList){
     console.log('name: ' + cName);
     console.log('created: ' + cDate + '\n');
   }
-}
+};
 
 method.deleteAll = function(){
   getList(priDelete)
-}
+};
 
 priDelete = function(cList){
 
@@ -97,18 +93,22 @@ priDelete = function(cList){
           console.log('error:', err);
     });
   }
-}
+};
 
 method.delete = function(id){
   priDelete(id);
-}
+};
 
-method.ask = function(question, output)
-{
+method.ask = function(question, output, classifierIndex) {
+  var classifier = primaryClassifierId;
+
+  if (typeof classifierIndex !== 'undefined') {
+    classifier = icdClassifiers[classifierIndex];
+  }
 
   nlcAccount.classify({
   text: question,
-  classifier_id: primaryClassifierId },
+  classifier_id: classifier },
   function(err, response) {
     if (err)
     {
@@ -120,98 +120,8 @@ method.ask = function(question, output)
       //console.log(JSON.stringify(response,null,2));
       output(response);
     }
-});
-}
-
-method.askICD0 = function(question, output)
-{
-
-  nlcAccount.classify({
-  text: question,
-  classifier_id: set0 },
-  function(err, response) {
-    if (err)
-    {
-      console.log('error:', err);
-    }
-    else
-    {
-      output(response);
-    }
-});
-}
-
-method.askICD1 = function(question, output)
-{
-
-  nlcAccount.classify({
-  text: question,
-  classifier_id: set1 },
-  function(err, response) {
-    if (err)
-    {
-      console.log('error:', err);
-    }
-    else
-    {
-      output(response);
-    }
-});
-}
-
-method.askICD2 = function(question, output)
-{
-
-  nlcAccount.classify({
-  text: question,
-  classifier_id: set2 },
-  function(err, response) {
-    if (err)
-    {
-      console.log('error:', err);
-    }
-    else
-    {
-      output(response);
-    }
-});
-}
-
-method.askICD3 = function(question, output)
-{
-
-  nlcAccount.classify({
-  text: question,
-  classifier_id: set3 },
-  function(err, response) {
-    if (err)
-    {
-      console.log('error:', err);
-    }
-    else
-    {
-      output(response);
-    }
-});
-}
-
-method.askICD4 = function(question, output)
-{
-
-  nlcAccount.classify({
-  text: question,
-  classifier_id: set4 },
-  function(err, response) {
-    if (err)
-    {
-      console.log('error:', err);
-    }
-    else
-    {
-      output(response);
-    }
-});
-}
+  });
+};
 
 method.ask2Prev = function(question, output)
 {
@@ -236,7 +146,7 @@ method.ask2Prev = function(question, output)
       }
     }
 });
-}
+};
 
 
 module.exports = NLCService;

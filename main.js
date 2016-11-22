@@ -1,6 +1,6 @@
-var DRCODE = require('./logic_interface/Drcode.js')
+var DRCODE = require('./logic_interface/Drcode.js');
 var drcode = new DRCODE();
-var http = require('http')
+var http = require('http');
 var fs = require('fs');
 var formidable = require("formidable");
 var util = require('util');
@@ -19,8 +19,9 @@ var recognizeStream;
 var speech_to_text = watson.speech_to_text({
   username: username,
   password: pwd,
-  version: 'v1',
+  version: 'v1'
 });
+
 var params = {
   content_type: 'audio/wav',
   continuous: true,
@@ -31,8 +32,7 @@ http.createServer(app).listen(port);
 app.use(express.static(__dirname));
 
 var savedString = "NULL";
-var saveres;
-var savereq;
+
 app.get('/', function(req, res){
   //convertToTxt();
     displayForm(res);
@@ -44,12 +44,14 @@ app.post('/',function(req, res){
 
 app.get('/getstring', function(req, res){
       getString(res);
-})
+});
+
 convertToTxt();
 
 function getString(res) {
   res.send(savedString);
 }
+
 function displayForm(res) {
   //convertToTxt();
     fs.readFile('index.html', function (err, data) {
