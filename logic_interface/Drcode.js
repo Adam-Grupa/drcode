@@ -157,7 +157,7 @@ method.process = function(question, req, res) {
                   for (var i = 0; i<5; i++) {
                       res.write('<li>'+'\n');
 
-                      if (response.numFound > i) {
+                      if (response.response.numFound > i) {
                           nlc.ask(JSON.stringify(response.response.docs[0].title, null, 2), outputICD, i);
                           var RNRtitle=JSON.stringify(response.response.docs[i].title, null, 2);
                           res.write(RNRtitle.substring(1,RNRtitle.length-1)+'\n\n');
